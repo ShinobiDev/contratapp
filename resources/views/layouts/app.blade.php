@@ -125,7 +125,7 @@
           </a>
           <ul class="treeview-menu">
             <li class="active"><a href="{{route('register')}}"><i class="fa fa-circle-o"></i> Crear usuarios</a></li>
-            <li><a href="index2.html"><i class="fa fa-circle-o"></i> Consultar usuarios</a></li>
+            <li><a href="{{route('consultar_usuarios')}}"><i class="fa fa-circle-o"></i> Consultar usuarios</a></li>
           </ul>
         </li>
          <li class="treeview">

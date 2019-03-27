@@ -20,7 +20,7 @@ class DatabaseSeeder extends Seeder
         
         $sadmin=Role::create(['name'=>'Super-Admin']);
         $admin=Role::create(['name'=>'Admin']);
-        $usuario=Role::create(['name'=>'Usuario']);
+        $usuario=Role::create(['name'=>'Comerciante']);
 
 
         User::truncate();

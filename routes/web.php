@@ -19,7 +19,13 @@ Route::group([
     //Route::get('all/{id}', 'AnunciosController@all')->name('anuncios.all');
     Route::get('registrar_empresa','EmpresasController@create')->name('registrar_empresa');
     Route::post('registrar_empresa','EmpresasController@store')->name('registrar_empresa');
+    Route::post('editar_empresa/{id}','EmpresasController@update')->name('editar_empresa');
     Route::get('consultar_empresas','EmpresasController@index')->name('consultar_empresas');
+    Route::get('consultar_usuarios','UsuariosController@index')->name('consultar_usuarios');
+    Route::post('editar_usuario/{id}','UsuariosController@update')->name('editar_usuario');
+    Route::get('register', 'UsuariosController@create')->name('register');
+    Route::post('register', 'UsuariosController@store');
+    
     
 
 });
@@ -40,8 +46,7 @@ Route::group([
         Route::post('logout', 'Auth\LoginController@logout')->name('logout');
 
         // Registration Routes...
-        Route::get('register', 'Auth\RegisterController@showRegistrationForm')->name('register');
-        Route::post('register', 'Auth\RegisterController@register');
+        
 
         // Password Reset Routes...
         Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');

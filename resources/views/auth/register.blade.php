@@ -42,10 +42,17 @@
                             </div>
                         </div>
                         <div class="form-group{{ $errors->has('empresa') ? ' has-error' : '' }}">
-                            <label for="email" class="col-md-4 control-label">Empresa</label>
+                            <label for="email" class="col-md-4 control-label">Rol</label>
 
                             <div class="col-md-6">
-                                <input id="empresa" type="text" class="form-control" name="empresa" value="{{ old('empresa') }}" required>
+                                
+                                <select class="form-control"  name="rol" id="exampleFormControlSelect1">
+                                  @forelse ($roles as $r)
+                                    <option id="{{$r->name}}">{{$r->name}}</option>
+                                  @empty
+                                    <option>No hay roles</option>
+                                  @endforelse
+                                </select>
 
                                 @if ($errors->has('empresa'))
                                     <span class="help-block">
@@ -54,7 +61,32 @@
                                 @endif
                             </div>
                         </div>
+                        {{--<div class="form-group{{ $errors->has('empresa') ? ' has-error' : '' }}">
+                            <label for="email" class="col-md-4 control-label">Empresa</label>
 
+                            <div class="col-md-6">
+                                
+                                <select class="form-control"  name="empresa" id="exampleFormControlSelect1">
+                                  @forelse ($empresas as $e)
+                                    <option id="{{$e->id}}">{{$e->nombre_empresa}}</option>
+                                  @empty
+                                    <option>aun sin registrar empresas</option>
+                                  @endforelse
+                                </select>
+
+                                @if ($errors->has('empresa'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('empresa') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>--}}
+                        <div class="form-group">
+                            <div class=" text-center">
+                                <span class="text-info">Las credenciales de accesos seran enviadas a el correo electrónico registrado</span>    
+                            </div>
+                            
+                        </div>    
                         {{--<div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
                             <label for="password" class="col-md-4 control-label">Contraseña</label>
 

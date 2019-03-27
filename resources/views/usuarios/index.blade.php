@@ -8,13 +8,14 @@
     <div class="row">
         <div class="col-md-10 col-md-offset-1">
         
-            <a href="{{route('registrar_empresa')}}" class="btn btn-info">Crear empresa</a>
+            <a href="{{route('register')}}" class="btn btn-info">Crear usuario</a>
         
 
-          <table id="empresas-table" class="table table-striped table-codensed table-hover table-resposive">
+          <table id="usuarios-table" class="table table-striped table-codensed table-hover table-resposive">
               <thead>
                 <tr>
-                  <th>Nombre</th>
+                  <th class="text-center">Nombre</th>
+                  <th>rol</th>
                   <th>Acciones</th>
 
                 </tr>
@@ -22,34 +23,35 @@
 
               <tbody>
                 
-                @forelse ($empresas as $e)
-                   <tr id="row_{{$e->id}}">      
-                      <td class="text-green text-center"><strong><h4>{{strtoupper($e->nombre_empresa)}}</h4></strong></td>
+                @forelse ($usuarios as $u)
+                   <tr id="row_{{$u->id}}">      
+                      <td class="text-green text-center"><strong><h4>{{strtoupper($u->name)}}</h4></strong></td>
+                      <td ><strong><h4>{{$u->getRoleNames()[0]}}</h4></strong></td>
                       <td>
                         <!-- Button trigger modal -->
-                        <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#editarempresa{{$e->id}}">
-                          Editar empresa
+                        <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#editarusuario{{$u->id}}">
+                          Editar usuario
                         </button>
 
                         <!-- Modal -->
-                        <div class="modal fade" id="editarempresa{{$e->id}}" tabindex="-1" role="dialog" aria-labelledby="editarempresalabel" aria-hidden="true">
+                        <div class="modal fade" id="editarusuario{{$u->id}}" tabindex="-1" role="dialog" aria-labelledby="editarusuariolabel" aria-hidden="true">
                           <div class="modal-dialog" role="document">
                             <div class="modal-content">
                               <div class="modal-header">
-                                <h5 class="modal-title" id="editarempresalabel">Editar empresa</h5>
+                                <h5 class="modal-title" id="editarusuariolabel">Editar usuario</h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                   <span aria-hidden="true">&times;</span>
                                 </button>
                               </div>
                               <div class="modal-body">
-                                 <form  method="POST" action="{{ route('editar_empresa',$e->id) }}">
+                                 <form  method="POST" action="{{ route('editar_usuario',$u->id) }}">
                                   <div class="form-group">
                                       {{ csrf_field() }}
                                   </div>  
                                   <div class="form-group">
                                     
-                                    <label for="exampleInputEmail1">Nombre empresa</label>
-                                    <input type="text" name="nombre_empresa" class="form-control"   placeholder="Ingresa el nuevo nombre de la empresa" value="{{$e->nombre_empresa}}">
+                                    <label for="exampleInputEmail1">Nombre usuario</label>
+                                    <input type="text" name="name" class="form-control"   placeholder="Ingresa el nuevo nombre de la usuario" value="{{$u->name}}">
                                     
                                   </div>
                                   
@@ -67,9 +69,9 @@
                    </tr>
                 @empty
                     <tr >      
-                      <td class="text-green text-center"><strong><h4>Aun no existen empresas registradas</h4></strong></td>
+                      <td class="text-green text-center"><strong><h4>Aun no existen usuarios registradas</h4></strong></td>
                       <td>
-                        <a href="{{route('registrar_empresa')}}" class="btn btn-info">Crear empresa</a>
+                        <a href="{{route('register')}}" class="btn btn-info">Crear usuario</a>
                     </td>
                    </tr>
                 @endforelse
@@ -88,7 +90,7 @@
           <script>
             $(document).ready(function() {
                 console.log("5");
-                $('#empresas-table').DataTable( {
+                $('#usuarios-table').DataTable( {
                     responsive: true,
                     stateSave: true,
                     dom: 'Bfrtip',

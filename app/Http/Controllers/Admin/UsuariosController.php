@@ -4,9 +4,12 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Spatie\Permission\Models\Role;
+use App\Events\Event;
+use App\User;
 use App\Empresa;
 
-class EmpresasController extends Controller
+class UsuariosController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,8 +19,8 @@ class EmpresasController extends Controller
     public function index()
     {
         //
-        $e=Empresa::all();
-        return view('empresas.index')->with('empresas',$e);
+        $e=User::all();
+        return view('usuarios.index')->with('usuarios',$e);
     }
 
     /**
@@ -28,8 +31,9 @@ class EmpresasController extends Controller
     public function create()
     {
         //
-        return view('empresas.crear');
+        $r=Role::all();
         
+        return view('auth.register')->with('roles',$r);
     }
 
     /**
@@ -40,15 +44,24 @@ class EmpresasController extends Controller
      */
     public function store(Request $request)
     {
-        //
-        $data =  $request->validate([
-            'nombre_empresa'=>'required'
-        ]);
         
-        Empresa::insert(['nombre_empresa'=>$data['nombre_empresa']]);
+        $data =  $request->validate([
+            'name'=>'required',
+            'email'=>'required',
+            'rol'=>'required',
+        ]);
+        $data['password']=str_random(8);
+        
+        $u = new User;
+        $u->name=$data['name'];
+        $u->email=$data['email'];
+        $u->password=$data['password'];
+        $u->save();
+        $u->assignRole(Role::where('name',$data['rol'])->first());
+        
+        Event::dispatch($u, $data['password'],"UsuarioCreado");
 
-
-        return back()->with("success",'Empresa creada exitosamente');
+        return back()->with("success",'Usuario creado exitosamente');
     }
 
     /**
@@ -71,6 +84,12 @@ class EmpresasController extends Controller
     public function edit($id)
     {
         //
+        $data =  $request->validate([
+            'name'=>'required'
+        ]);
+        User::where('id',$id)->update(['name'=>$data['name']]);
+
+        return back()->with("success",'Usuario editado exitosamente');
     }
 
     /**
@@ -83,12 +102,6 @@ class EmpresasController extends Controller
     public function update(Request $request, $id)
     {
         //
-        $data =  $request->validate([
-            'nombre_empresa'=>'required'
-        ]);
-        Empresa::where('id',$id)->update(['nombre_empresa'=>$data['nombre_empresa']]);
-
-        return back()->with("success",'Empresa editada exitosamente');
     }
 
     /**
