@@ -46,9 +46,10 @@
 
                             <div class="col-md-6">
                                 
-                                <select class="form-control"  name="rol" id="exampleFormControlSelect1">
+                                <select class="form-control"  name="rol" id="selRoles" onchange="validar_rol(this);" required>
+                                     <option>selecciona un rol</option>   
                                   @forelse ($roles as $r)
-                                    <option id="{{$r->name}}">{{$r->name}}</option>
+                                    <option value="{{$r->id}}">{{$r->name}}</option>
                                   @empty
                                     <option>No hay roles</option>
                                   @endforelse
@@ -61,14 +62,15 @@
                                 @endif
                             </div>
                         </div>
-                        {{--<div class="form-group{{ $errors->has('empresa') ? ' has-error' : '' }}">
+                        <div class="form-group{{ $errors->has('empresa') ? ' has-error' : '' }}">
                             <label for="email" class="col-md-4 control-label">Empresa</label>
 
                             <div class="col-md-6">
                                 
-                                <select class="form-control"  name="empresa" id="exampleFormControlSelect1">
+                                <select class="form-control"  name="empresa" id="selEmpresas" required>
+                                    <option>selecciona una empresa</option>   
                                   @forelse ($empresas as $e)
-                                    <option id="{{$e->id}}">{{$e->nombre_empresa}}</option>
+                                    <option value="{{$e->id}}">{{$e->nombre_empresa}}</option>
                                   @empty
                                     <option>aun sin registrar empresas</option>
                                   @endforelse
@@ -80,7 +82,7 @@
                                     </span>
                                 @endif
                             </div>
-                        </div>--}}
+                        </div>
                         <div class="form-group">
                             <div class=" text-center">
                                 <span class="text-info">Las credenciales de accesos seran enviadas a el correo electrónico registrado</span>    
@@ -122,4 +124,25 @@
         </div>
     </div>
 </div>
+@endsection
+@section('scripts')
+    <script>
+        $(document).ready(function() {
+            $('#selRoles').select2();
+            $('#selEmpresas').select2();
+        });
+        function validar_rol(e){
+            switch(e.value){
+                case "Super-Admin":
+                    document.getElementById('selEmpresas').disabled=true;
+                    break;
+                case "Admin":
+                    document.getElementById('selEmpresas').disabled=false;
+                    break;
+                case "Comerciante":
+                    document.getElementById('selEmpresas').disabled=false;
+                    break;        
+            }
+        }
+    </script>
 @endsection

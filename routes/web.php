@@ -75,3 +75,6 @@ Route::get('/clearcache', function(){
       // Artisan::call('key:generate');
       return '<h1>se ha borrado el cache</h1>';
   });
+Route::get('prueba',function(){
+  return view('index');
+});

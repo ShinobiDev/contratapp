@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Spatie\Permission\Models\Role;
 use App\Events\Event;
 use App\User;
+use App\DetalleUsuarioEmpresa;
 use App\Empresa;
 
 class UsuariosController extends Controller
@@ -19,8 +20,29 @@ class UsuariosController extends Controller
     public function index()
     {
         //
-        $e=User::all();
-        return view('usuarios.index')->with('usuarios',$e);
+        
+
+        switch (auth()->user()->getRoleNames()[0]) {
+            case 'Super-Admin':
+                $r=Role::all();    
+                $u=User::all();
+                break;
+            case 'Admin':
+                //pendientes relaciones 
+                $r=Role::where('name','!=','Super-Admin')->get();
+                $u=User::all();
+                break;    
+            
+            default:
+                $r=Role::where('name','Comerciante')->get();
+                $u=User::where('id',auth()->user()->id)->get();
+                break;
+        }
+       
+        
+        return view('usuarios.index')
+                    ->with('usuarios',$u)
+                    ->with('roles',$r);
     }
 
     /**
@@ -32,8 +54,10 @@ class UsuariosController extends Controller
     {
         //
         $r=Role::all();
-        
-        return view('auth.register')->with('roles',$r);
+        $e=Empresa::all();
+        return view('auth.register')
+                    ->with('roles',$r)
+                    ->with('empresas',$e);
     }
 
     /**
@@ -47,18 +71,33 @@ class UsuariosController extends Controller
         
         $data =  $request->validate([
             'name'=>'required',
-            'email'=>'required',
+            'email'=>'required|unique:users',
             'rol'=>'required',
+            'empresa'=>'',
         ]);
+        
+        if($data['rol']=="selecciona un rol"){
+            return back()->with("error",'Debes seleccionar un rol');
+        }
+        if($data['empresa']=='selecciona una empresa' && $data['rol']!='1'){
+            return back()->with("error",'Debes seleccionar una empresa');
+        }
         $data['password']=str_random(8);
         
         $u = new User;
         $u->name=$data['name'];
         $u->email=$data['email'];
-        $u->password=$data['password'];
+        $u->password=bcrypt($data['password']);
         $u->save();
-        $u->assignRole(Role::where('name',$data['rol'])->first());
-        
+        $u->assignRole(Role::where('id',$data['rol'])->first());
+
+        if($data['rol']!="1"){
+            $dt=new DetalleUsuarioEmpresa;
+            $dt->id_usuario=$u->id;
+            $dt->id_empresa=$data['empresa'];
+            $dt->id_rol=$data['rol'];
+            $dt->save();
+        }
         Event::dispatch($u, $data['password'],"UsuarioCreado");
 
         return back()->with("success",'Usuario creado exitosamente');
@@ -84,12 +123,7 @@ class UsuariosController extends Controller
     public function edit($id)
     {
         //
-        $data =  $request->validate([
-            'name'=>'required'
-        ]);
-        User::where('id',$id)->update(['name'=>$data['name']]);
-
-        return back()->with("success",'Usuario editado exitosamente');
+        
     }
 
     /**
@@ -102,6 +136,17 @@ class UsuariosController extends Controller
     public function update(Request $request, $id)
     {
         //
+        
+        $data =  $request->validate([
+            'name'=>'required',
+            'email'=>'required'
+        ]);
+        User::where('id',$id)->update([
+                    'name'=>$data['name'],
+                    'email'=>$data['email']
+                    ]);
+
+        return back()->with("success",'Usuario editado exitosamente');
     }
 
     /**

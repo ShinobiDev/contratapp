@@ -41,9 +41,9 @@ class NotificationMail extends Mailable
     {
         //dd($this->tipo);
         switch ($this->tipo) {
-            case 'AnuncioCreado':
-                return $this->markdown('emials.AnuncioCreado')
-                            ->subject('Has creado un nuevo anuncio en '. config('app.name'));
+            case 'UsuarioCreado':
+                return $this->markdown('emails.credenciales')
+                            ->subject('Datos de acceso para '. config('app.name'));
                 # code...
                 break;                   
             default:

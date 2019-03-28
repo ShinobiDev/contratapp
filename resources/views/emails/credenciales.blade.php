@@ -10,7 +10,7 @@
 @component('mail::table')
     | Usuario | Contraseña |
     |:--------|:----------|
-    | {{$user->email}} | {{$password}} |
+    | {{$user->email}} | {{$datos}} |
 @endcomponent
 
 @component('mail::button', ['url' => url('login').'?id='.urlencode($user->email)])

@@ -38,8 +38,15 @@
     <form class="form-horizontal" method="POST" action="{{ route('login') }}">
       {{ csrf_field() }}
       <div class="form-group has-feedback">
-        <input type="email" name="email" class="form-control" placeholder="Correo electrónico">
+        @if(isset($_GET['id']))
+          
+        <input type="email" name="email" class="form-control" placeholder="Correo electrónico" value="{{$_GET['id']}}" readonly>
+        @else
+          <input type="email" name="email" class="form-control" placeholder="Correo electrónico" value="{{old('email')}}"> 
+        @endif 
+        
         <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+
          @if ($errors->has('email'))
               <span class="help-block">
                   <strong class="text-red">{{ $errors->first('email') }}</strong>
@@ -59,7 +66,7 @@
         <div class="col-xs-8">
           <div class="checkbox icheck">
             <label>
-               <input type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}> Recuérdame
+               <input type="checkbox" name="remember" value="{{ old('remember') ? 'checked' : '' }}"> Recuérdame
             </label>
           </div>
         </div>

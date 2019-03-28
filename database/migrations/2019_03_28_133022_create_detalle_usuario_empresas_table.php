@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateObservacionProcesosTable extends Migration
+class CreateDetalleUsuarioEmpresasTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,11 @@ class CreateObservacionProcesosTable extends Migration
      */
     public function up()
     {
-        Schema::create('observacion_procesos', function (Blueprint $table) {
+        Schema::create('detalle_usuario_empresas', function (Blueprint $table) {
             $table->increments('id');
-            $table->string("observacion");
-            $table->integer("id_detalle_empresa_usuario_observacion")->unsigned();
-            $table->integer("id_control_proceso")->unsigned();
-            $table->string("estado_observacion_proceso");
+            $table->integer("id_usuario")->unsigned();
+            $table->integer("id_empresa")->unsigned();
+            $table->integer("id_rol")->unsigned();
             $table->timestamps();
         });
     }
@@ -30,6 +29,6 @@ class CreateObservacionProcesosTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('observacion_procesos');
+        Schema::dropIfExists('detalle_usuario_empresas');
     }
 }

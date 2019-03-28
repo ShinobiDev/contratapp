@@ -8,7 +8,7 @@
     <div class="row">
         <div class="col-md-10 col-md-offset-1">
         
-            <a href="{{route('register')}}" class="btn btn-info">Crear usuario</a>
+            
         
 
           <table id="usuarios-table" class="table table-striped table-codensed table-hover table-resposive">
@@ -24,6 +24,7 @@
               <tbody>
                 
                 @forelse ($usuarios as $u)
+
                    <tr id="row_{{$u->id}}">      
                       <td class="text-green text-center"><strong><h4>{{strtoupper($u->name)}}</h4></strong></td>
                       <td ><strong><h4>{{$u->getRoleNames()[0]}}</h4></strong></td>
@@ -50,11 +51,32 @@
                                   </div>  
                                   <div class="form-group">
                                     
-                                    <label for="exampleInputEmail1">Nombre usuario</label>
-                                    <input type="text" name="name" class="form-control"   placeholder="Ingresa el nuevo nombre de la usuario" value="{{$u->name}}">
+                                    <label for="exampleInputName">Nombre usuario</label>
+                                    <input type="text" name="name" class="form-control"   placeholder="Ingresa el nuevo nombre de la usuario" value="{{$u->name}}" required>
                                     
                                   </div>
-                                  
+                                  <div class="form-group">
+                                    
+                                    <label for="exampleInputEmail">Correo usuario</label>
+                                    <input type="text" name="email" class="form-control"   placeholder="Ingresa el nuevo correo del usuario" value="{{$u->email}}" required>
+                                    
+                                  </div>
+                                  <div class="form-group">
+                                       <select class="form-control"  name="rol" id="selRolesEdi" onchange="validar_rol(this);" required>
+                                             <option>selecciona un rol</option>   
+                                          @forelse ($roles as $r)
+
+                                            @if($u->getRoleNames()[0]==$r->name)
+                                              <option value="{{$r->id}}" selected>{{$r->name}}</option>
+                                            @else
+                                              <option value="{{$r->id}}">{{$r->name}}</option>
+                                            @endif
+                                            
+                                          @empty
+                                            <option>No hay roles</option>
+                                          @endforelse
+                                        </select>
+                                  </div>
                                    <button type="submit" class="btn btn-primary">Guardar cambios</button>   
                                 </form>
                               </div>
@@ -81,6 +103,7 @@
               </tbody>
               
           </table>
+          <a href="{{route('register')}}" class="btn btn-info">Crear usuario</a>
         </div>
     </div>
 </div>
@@ -89,7 +112,7 @@
 
           <script>
             $(document).ready(function() {
-                console.log("5");
+                $('#selRolesEdi').select2();
                 $('#usuarios-table').DataTable( {
                     responsive: true,
                     stateSave: true,
