@@ -58,7 +58,7 @@ class PasswordBroker implements PasswordBrokerContract
         // if we did not we will redirect back to this current URI with a piece of
         // "flash" data in the session to indicate to the developers the errors.
         $user = $this->getUser($credentials);
-        //validamos que solo se envie link a usuarios con estado 1
+        //ESTA CONDICIONAL SE DEBE EDITAR PARA EVITAR RESET DE PASSWORD DE USUARIO DESHABILITADO
         if (is_null($user) || $user->estado == 0) {
             return static::INVALID_USER;
         }

@@ -40,10 +40,12 @@ class LoginController extends Controller
 
     /**
      * Get the needed authorization credentials from the request.
+     * ESTE METODO SE DEBE EDITAR PARA EVITAR LOGIN DE USUARIO DESHABILITADO
      *
      * @param  \Illuminate\Http\Request  $request
      * @return array
      */
+    
     protected function credentials(Request $request)
     {
         //return $request->only($this->username(), 'password');

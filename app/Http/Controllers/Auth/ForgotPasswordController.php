@@ -17,7 +17,7 @@ class ForgotPasswordController extends Controller
     | your application to your users. Feel free to explore this trait.
     |
     */
-
+    // ESTA CLASE SE DEBE EDITAR PARA EVITAR LOGIN DE USUARIO DESHABILITADO
     use SendsPasswordResetEmails;
 
     /**
