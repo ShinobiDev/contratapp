@@ -10,7 +10,7 @@
 			  <a href="#" class="list-group-item active"><h1>Instrucciones <h6>Sigue estos 5 simples pasos para agregar los procesos correctamente</h6></h1></a>
 			  <a href="{{asset('archivos/plantilla/Control Procesos Estatales Plantilla.xlsx')}}" class="list-group-item"> 1- Descarga la plantilla <small>(Dando clic aquí)</small></a>
 			  <a href="https://www.contratos.gov.co/consultas/inicioConsulta.do" target="_blank" class="list-group-item"> 2- Ingresa a el sitio web contratos.gov.co <small>(Puedes acceder danco clic aquí)</small></a>
-			  <a href="#" class="list-group-item"> 3- Copia en el navegador y pega en las casillas del archivo no olvides que deben tener el mismo orden y no pueden quedar filas incimpletas</a>
+			  <a href="#" class="list-group-item"> 3- Filtra y copia en el navegador, luego de esto pega en las casillas del archivo no olvides que deben tener el mismo orden y no pueden quedar filas incompletas</a>
 			  <a href="#" class="list-group-item"> 
 			  	
 			  	@role('Comerciante')

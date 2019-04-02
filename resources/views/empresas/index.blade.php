@@ -8,7 +8,7 @@
     <div class="row">
         <div class="col-md-10 col-md-offset-1">
         
-            <a href="{{route('registrar_empresa')}}" class="btn btn-info">Crear empresa</a>
+            
         
 
           <table id="empresas-table" class="table table-striped table-codensed table-hover table-resposive">
@@ -79,6 +79,8 @@
               </tbody>
               
           </table>
+
+          <a href="{{route('registrar_empresa')}}" class="btn btn-success">Crear empresa</a>
         </div>
     </div>
 </div>

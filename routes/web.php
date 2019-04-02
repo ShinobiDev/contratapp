@@ -25,24 +25,36 @@ Route::group([
     Route::post('registrar_empresa','EmpresasController@store')->name('registrar_empresa');
     Route::post('editar_empresa/{id}','EmpresasController@update')->name('editar_empresa');
     Route::get('consultar_empresas','EmpresasController@index')->name('consultar_empresas');
+    
     Route::get('consultar_usuarios','UsuariosController@index')->name('consultar_usuarios');
     Route::post('editar_usuario/{id}','UsuariosController@update')->name('editar_usuario');
     Route::get('register', 'UsuariosController@create')->name('register');
     Route::post('register', 'UsuariosController@store');
+    Route::post('deshabilitar_usuario/{id_usuario}','UsuariosController@destroy')->name('deshabilitar_usuario');
+    Route::get('ver_perfil','UsuariosController@ver_perfil')->name('ver_perfil');
+
+    
     Route::post('subir_procesos', 'ProcesosController@subir_archivos_procesos')->name('subir_procesos');
     Route::get('registrar_procesos','ProcesosController@create')->name('registrar_procesos');
     Route::get('consultar_procesos','ProcesosController@index')->name('consultar_procesos');
     Route::post('editar_proceso/{id}','ProcesosController@update')->name('editar_proceso');
-    Route::get('ver_perfil','UsuariosController@ver_perfil')->name('ver_perfil');
+    
     Route::post('registrar_observacion/{id_proceso}','ProcesosController@registrar_observacion')->name('registrar_observacion');
     Route::post('cambiar_fecha_cierre/{id_proceso}','ProcesosController@cambiar_fecha_cierre')->name('cambiar_fecha_cierre');
     Route::post('cambiar_estados/{id_proceso}','ProcesosController@cambiar_estados')->name('cambiar_estados');
+
+    
     
 
 });
 
 Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
 Route::post('login', 'Auth\LoginController@login');
+Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
+Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
+Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
+Route::post('password/reset', 'Auth\ResetPasswordController@reset');
+
 
 
 Route::group([
@@ -60,10 +72,7 @@ Route::group([
         
 
         // Password Reset Routes...
-        Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
-        Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
-        Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
-        Route::post('password/reset', 'Auth\ResetPasswordController@reset');
+        
 });
 
 

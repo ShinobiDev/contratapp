@@ -79,9 +79,9 @@ class UsuariosController extends Controller
         if($data['rol']=="selecciona un rol"){
             return back()->with("error",'Debes seleccionar un rol');
         }
-        if($data['empresa']=='selecciona una empresa' && $data['rol']!='1'){
+        /*if($data['empresa']=='selecciona una empresa' && $data['rol']!='1'){
             return back()->with("error",'Debes seleccionar una empresa');
-        }
+        }*/
         $data['password']=str_random(8);
         
         $u = new User;
@@ -91,13 +91,7 @@ class UsuariosController extends Controller
         $u->save();
         $u->assignRole(Role::where('id',$data['rol'])->first());
 
-        if($data['rol']!="1"){
-            $dt=new DetalleUsuarioEmpresa;
-            $dt->id_usuario=$u->id;
-            $dt->id_empresa=$data['empresa'];
-            $dt->id_rol=$data['rol'];
-            $dt->save();
-        }
+       
         Event::dispatch($u, $data['password'],"UsuarioCreado");
 
         return back()->with("success",'Usuario creado exitosamente');
@@ -171,7 +165,8 @@ class UsuariosController extends Controller
      */
     public function destroy($id)
     {
-        //
+        User::where('id',$id)->update(['estado'=>'0']);
+        return back()->with("success",'Usuario deshabilitado exitosamente');
     }
 
     public function ver_perfil(){

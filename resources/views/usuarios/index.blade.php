@@ -16,6 +16,7 @@
                 <tr>
                   <th class="text-center">Nombre</th>
                   <th>rol</th>
+                  <th>estado</th>
                   <th>Acciones</th>
 
                 </tr>
@@ -28,11 +29,18 @@
                    <tr id="row_{{$u->id}}">      
                       <td class="text-green text-center"><strong><h4>{{strtoupper($u->name)}}</h4></strong></td>
                       <td ><strong><h4>{{$u->getRoleNames()[0]}}</h4></strong></td>
+                      <td >{{$estado = ($u->estado == 1) ? "Activo" : "Deshabilitado"}}</td>
                       <td>
                         <!-- Button trigger modal -->
                         <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#editarusuario{{$u->id}}">
                           Editar usuario
                         </button>
+                        @if($u->estado)
+                          <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#eliminarusuario{{$u->id}}">
+                          Deshabilitar usuario
+                        </button>
+                        @endif
+                        
 
                         
                         
@@ -52,9 +60,10 @@
               </tbody>
               
           </table>
-          <a href="{{route('register')}}" class="btn btn-info">Crear usuario</a>
+          <a href="{{route('register')}}" class="btn btn-success">Crear usuario</a>
           <!-- Modal -->
           @foreach($usuarios as $u)
+            <!--MODALPARA EDITAR USUARIO-->
             <div class="modal fade" id="editarusuario{{$u->id}}" tabindex="-1" role="dialog" aria-labelledby="editarusuariolabel" aria-hidden="true">
                           <div class="modal-dialog" role="document">
                             <div class="modal-content">
@@ -98,6 +107,35 @@
                                         </select>
                                   </div>
                                    <button type="submit" class="btn btn-primary">Guardar cambios</button>   
+                                </form>
+                              </div>
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Salir</button>
+                                
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+            <!--MODAL PARA DESHABILITAR USUARIO-->            
+            <div class="modal fade" id="eliminarusuario{{$u->id}}" tabindex="-1" role="dialog" aria-labelledby="editarusuariolabel" aria-hidden="true">
+                          <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <h5 class="modal-title" id="editarusuariolabel">Deshabilitar usuario</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                  <span aria-hidden="true">&times;</span>
+                                </button>
+                              </div>
+                              <div class="modal-body">
+                                 <form  method="POST" action="{{ route('deshabilitar_usuario',$u->id) }}">
+                                  <div class="form-group">
+                                      {{ csrf_field() }}
+                                  </div>  
+                                  <div class="form-group">
+                                    <p>¿Estás seguro de que deseas deshabilitar a {{$u->name}}?</p>
+                                    
+                                  </div>
+                                   <button type="submit" class="btn btn-danger">Completamente seguro</button>   
                                 </form>
                               </div>
                               <div class="modal-footer">

@@ -69,7 +69,7 @@
 
 		                        @else
 		                        	<button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#editarproceso{{$p->id}}">
-		                          		Editar proceso
+		                          		Cambiar usuario
 		                        	</button>
 		                        	<button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#fechacierreproceso{{$p->id}}">
 		                          		Cambiar fecha cierre proceso
@@ -311,12 +311,12 @@
 		                          </div>
 		            </div>
 		        @else
-		        	<!--MODAL PARA EDITAR PROCESO-->
+		        	<!--MODAL PARA CAMBIAR USUARIO PROCESO-->
 		        	<div class="modal fade" id="editarproceso{{$p->id}}" tabindex="-1" role="dialog" aria-labelledby="editarprocesoabel" aria-hidden="true">
 		                          <div class="modal-dialog" role="document">
 		                            <div class="modal-content">
 		                              <div class="modal-header">
-		                                <h5 class="modal-title" id="editarempresalabel">Editar proceso</h5>
+		                                <h5 class="modal-title" id="editarempresalabel">Cambiar usuario del proceso <strong>{{$p->numero_proceso}}</strong></h5>
 		                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 		                                  <span aria-hidden="true">&times;</span>
 		                                </button>

@@ -41,28 +41,42 @@
                                 @endif
                             </div>
                         </div>
-                        <div class="form-group{{ $errors->has('empresa') ? ' has-error' : '' }}">
+                        <div class="form-group{{ $errors->has('rol') ? ' has-error' : '' }}">
                             <label for="email" class="col-md-4 control-label">Rol</label>
 
                             <div class="col-md-6">
                                 
                                 <select class="form-control"  name="rol" id="selRoles" onchange="validar_rol(this);" required>
                                      <option>selecciona un rol</option>   
-                                  @forelse ($roles as $r)
-                                    <option value="{{$r->id}}">{{$r->name}}</option>
-                                  @empty
-                                    <option>No hay roles</option>
-                                  @endforelse
+                                          
+                                          @role('Admin')
+                                              @forelse ($roles as $r)
+                                                @if($r->name!='Super-Admin')
+                                                <option value="{{$r->id}}">{{$r->name}}</option>
+                                                @endif
+                                              @empty
+                                                <option>No hay roles</option>
+                                              @endforelse
+                                          @else
+                                            @role('Super-Admin')
+                                                @forelse ($roles as $r)
+                                                <option value="{{$r->id}}">{{$r->name}}</option>
+                                              @empty
+                                                <option>No hay roles</option>
+                                                @endforelse
+                                            @endrole
+                                          @endrole   
+                                  
                                 </select>
 
-                                @if ($errors->has('empresa'))
+                                @if ($errors->has('rol'))
                                     <span class="help-block">
-                                        <strong>{{ $errors->first('empresa') }}</strong>
+                                        <strong>{{ $errors->first('rol') }}</strong>
                                     </span>
                                 @endif
                             </div>
                         </div>
-                        <div class="form-group{{ $errors->has('empresa') ? ' has-error' : '' }}">
+                        {{--<div class="form-group{{ $errors->has('empresa') ? ' has-error' : '' }}">
                             <label for="email" class="col-md-4 control-label">Empresa</label>
 
                             <div class="col-md-6">
@@ -82,7 +96,7 @@
                                     </span>
                                 @endif
                             </div>
-                        </div>
+                        </div>--}}
                         <div class="form-group">
                             <div class=" text-center">
                                 <span class="text-info">Las credenciales de accesos seran enviadas a el correo electrónico registrado</span>    

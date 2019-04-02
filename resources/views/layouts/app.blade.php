@@ -63,13 +63,13 @@
           <!-- User Account: style can be found in dropdown.less -->
           <li class="dropdown user user-menu">
             <a href="{{route('ver_perfil')}}" class="dropdown-toggle" data-toggle="dropdown">
-              <img src="{{ asset('dist/img/user2-160x160.jpg') }}" class="user-image" alt="User Image">
+              <img src="{{ asset('dist/img/user2-160x160.png') }}" class="user-image" alt="User Image">
               <span class="hidden-xs">{{auth()->user()->name}}</span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
               <li class="user-header">
-                <img src="{{ asset('dist/img/user2-160x160.jpg') }}" class="img-circle" alt="User Image">
+                <img src="{{ asset('dist/img/user2-160x160.png') }}" class="img-circle" alt="User Image">
 
                 <p>
                   {{auth()->user()->name}} - {{auth()->user()->getRoleNames()[0]}}
@@ -104,7 +104,7 @@
       <!-- Sidebar user panel -->
       <div class="user-panel">
         <div class="pull-left image">
-          <img src="{{ asset('dist/img/user2-160x160.jpg') }}" class="img-circle" alt="User Image">
+          <img src="{{ asset('dist/img/user2-160x160.png') }}" class="img-circle" alt="User Image">
         </div>
         <div class="pull-left info">
           <a href="{{route('ver_perfil')}}"><p>{{auth()->user()->name}}</p></a>

@@ -31,7 +31,7 @@ class ProcesosController extends Controller
                     ->with('procesos',$cp)
                     ->with('users',$u);
         }else{
-            $cp=ControlProceso::all()->orderBy('fecha_cierre','DESC');
+            $cp=ControlProceso::all();
             $u=User::role('Comerciante')->get();    
             return view('procesos.index')
                 ->with('procesos',$cp)
