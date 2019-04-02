@@ -25,6 +25,10 @@ Route::group([
     Route::post('editar_usuario/{id}','UsuariosController@update')->name('editar_usuario');
     Route::get('register', 'UsuariosController@create')->name('register');
     Route::post('register', 'UsuariosController@store');
+    Route::post('subir_procesos/{empresa}/{usuario}', 'ProcesosController@subir_archivos_procesos')->name('subir_procesos');
+    Route::get('registrar_procesos','ProcesosController@create')->name('registrar_procesos');
+    Route::get('consultar_procesos','ProcesosController@index')->name('consultar_procesos');
+    Route::post('editar_proceso/{id}','ProcesosController@update')->name('editar_proceso');
     
     
 

@@ -29,6 +29,8 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-
+    public function usuario_asignado(){
+        return $this->hasMany(ControlProceso::class,'id_usuario');
+    }
     
 }
