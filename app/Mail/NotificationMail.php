@@ -45,7 +45,12 @@ class NotificationMail extends Mailable
                 return $this->markdown('emails.credenciales')
                             ->subject('Datos de acceso para '. config('app.name'));
                 # code...
-                break;                   
+                break;  
+            case 'ProximoCierre':
+                return $this->markdown('emails.proximo_cierre')
+                            ->subject('Un proceso esta próximo a cerrar '. config('app.name'));
+                # code...
+                break;                       
             default:
                 dd($this->tipo);
                 # code...

@@ -139,8 +139,22 @@ class UsuariosController extends Controller
         
         $data =  $request->validate([
             'name'=>'required',
-            'email'=>'required'
+            'email'=>'required',
+            'password'=>'',
+            'rol'=>''
         ]);
+        
+        if(($request['password'][0] != "" && $request['password'][1] != "") && ($request['password'][1]==$request['password'][0])){
+
+            User::where('id',$id)->update([
+                    'password'=>bcrypt($data['password'][0])                    
+                    ]);
+        }else if(($request['password'][0] != "" && $request['password'][1] != "") && ($request['password'][1]!=$request['password'][0])){
+            return back()->with('error','Las contraseñas deben coincidir');
+        }
+
+        
+
         User::where('id',$id)->update([
                     'name'=>$data['name'],
                     'email'=>$data['email']
@@ -158,5 +172,11 @@ class UsuariosController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function ver_perfil(){
+          return view('usuarios.perfil')
+                    ->with('usuario',auth()->user());
+                    
     }
 }

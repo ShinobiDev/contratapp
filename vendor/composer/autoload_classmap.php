@@ -6,13 +6,14 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'App\\Console\\Commands\\ProximoCierreProceso' => $baseDir . '/app/Console/Commands/ProximoCierreProceso.php',
     'App\\Console\\Kernel' => $baseDir . '/app/Console/Kernel.php',
     'App\\ControlProceso' => $baseDir . '/app/ControlProceso.php',
-    'App\\DetalleUsuarioEmpresa' => $baseDir . '/app/DetalleUsuarioEmpresa.php',
     'App\\Empresa' => $baseDir . '/app/Empresa.php',
     'App\\Events\\Event' => $baseDir . '/app/Events/Event.php',
     'App\\Exceptions\\Handler' => $baseDir . '/app/Exceptions/Handler.php',
     'App\\Http\\Controllers\\Admin\\EmpresasController' => $baseDir . '/app/Http/Controllers/Admin/EmpresasController.php',
+    'App\\Http\\Controllers\\Admin\\ProcesosController' => $baseDir . '/app/Http/Controllers/Admin/ProcesosController.php',
     'App\\Http\\Controllers\\Admin\\UsuariosController' => $baseDir . '/app/Http/Controllers/Admin/UsuariosController.php',
     'App\\Http\\Controllers\\Auth\\ForgotPasswordController' => $baseDir . '/app/Http/Controllers/Auth/ForgotPasswordController.php',
     'App\\Http\\Controllers\\Auth\\LoginController' => $baseDir . '/app/Http/Controllers/Auth/LoginController.php',

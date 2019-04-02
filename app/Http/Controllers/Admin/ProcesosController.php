@@ -5,6 +5,11 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\ControlProceso;
+use App\User;
+use App\Empresa;
+use App\ObservacionProceso;
+
+
 
 class ProcesosController extends Controller
 {
@@ -14,9 +19,25 @@ class ProcesosController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        $cp=ControlProceso::all();
-        return view('procesos.index')->with('procesos',$cp);
+    {   
+        if(auth()->user()->getRoleNames()[0]=='Comerciante'){
+
+            $cp=ControlProceso::where('id_usuario_asignado',auth()->user()->id)
+                            ->orderBy('fecha_cierre','DESC')
+                            ->get();
+            
+            $u=User::role('Comerciante')->get();    
+            return view('procesos.index')
+                    ->with('procesos',$cp)
+                    ->with('users',$u);
+        }else{
+            $cp=ControlProceso::all()->orderBy('fecha_cierre','DESC');
+            $u=User::role('Comerciante')->get();    
+            return view('procesos.index')
+                ->with('procesos',$cp)
+                ->with('users',$u);
+        }
+        
     }
 
     /**
@@ -27,7 +48,15 @@ class ProcesosController extends Controller
     public function create()
     {
         //
-        return view('procesos.register');
+        $em=Empresa::all();
+        if(auth()->user()->getRoleNames()[0]!='Comerciante'){
+            $us=User::role('Comerciante')->get();
+        }else{
+            $us=auth()->user();
+        }
+        return view('procesos.register')
+                ->with('empresas',$em)
+                ->with('usuarios',$us);
     }
 
     /**
@@ -73,7 +102,19 @@ class ProcesosController extends Controller
     public function update(Request $request, $id)
     {
         //
-        dd($request,$id);
+        //dd($request,$id);
+        
+        ControlProceso::where('id',$id)->update(['id_usuario_asignado'=>$request['nuevo_usuario']]);
+         ObservacionProceso::create([
+            'observacion'=>"Cambio de usuario ",
+            'id_usuario_observacion'=>auth()->user()->id,
+            'id_control_proceso'=>$id
+        ]);
+        $cp=ControlProceso::where('id',$id)->first(); 
+        return back()->with("success",'Proceso # '.$cp->numero_proceso.' editado exitosamente');
+    
+    
+
     }
 
     /**
@@ -86,7 +127,7 @@ class ProcesosController extends Controller
     {
         //
     }
-    public function subir_archivos_procesos(Request $request,$empresa,$id_usuario){
+    public function subir_archivos_procesos(Request $request){
         
         $this->validate(request(),[
             //'file'=>'required|max:10240|mimetypes:application/csv,application/excel,application/vnd.ms-excel,application/vnd.msexcel,text/csv, text/anytext, text/plain, text/x-c,text/comma-separated-values,inode/x-empty,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
@@ -101,28 +142,91 @@ class ProcesosController extends Controller
 
         rename($filename,realpath(dirname($filename)).$newname);
         $datos=ControlProceso::obtener_datos_archivo($newname);
-      //  dd($datos);
+       
+        $i=0;
+        $rep=0;
         foreach($datos as $d ){
             //dump($d);
             $fecha=array_reverse(explode("-",explode("\n",$d[9])[1]));
             //dump($fecha);
-             ControlProceso::create([
-                'numero_proceso'=>$d[1],
-                'link_proceso'=>$d[2],
-                'tipo_proceso'=>$d[3],
-                'estado_proceso'=>$d[4],
-                'entidad'=>$d[5],
-                'objeto'=>$d[6],
-                'dpto_ciudad'=>$d[7],
-                'cuantia'=>explode('$',$d[8])[1],
-                'fecha_apertura'=>implode('-',$fecha),
-                'id_empresa'=>$empresa,
-                'id_detalle_usuario_empresa_asignado'=>$id_usuario                
-                
+            $pro=ControlProceso::where('numero_proceso',$d[1])->get();
+            if(count($pro)==0){
+                ControlProceso::create([
+                    'numero_proceso'=>$d[1],
+                    'link_proceso'=>$d[2],
+                    'tipo_proceso'=>$d[3],
+                    'estado_proceso'=>$d[4],
+                    'entidad'=>$d[5],
+                    'objeto'=>$d[6],
+                    'dpto_ciudad'=>$d[7],
+                    'cuantia'=>explode('$',$d[8])[1],
+                    'fecha_apertura'=>implode('-',$fecha),
+                    'id_usuario_asignado'=>$request['usuario'],
+                    'id_empresa'=>$request['empresa'],                
+                    
+                ]);
+                $i++;
+            }else{
+                $rep++;
+            }
+             
+        }
+        $msn="";
+        if($rep>0){
+            $msn=" y se identificaron ".$rep." procesos repetidos los cuales no se agregaron al sistema.";
+        }else{
+            $msn=".";
+        }
+        return  response()->json(['respuesta'=>true,'mensaje'=>'Se han agregado '.$i.' registros satisfactoriamente'.$msn]);                       
+        
+       
+    }
+
+    public function registrar_observacion(Request $request,$id){
+        //dd($request,$id);
+        ObservacionProceso::create([
+            'observacion'=>$request['observacion'],
+            'id_usuario_observacion'=>$request['id_usuario'],
+            'id_control_proceso'=>$id
+        ]);
+        $cp=ControlProceso::where('id',$id)->first();
+        return back()->with("success",'Observación registrada exitosamente, para el proceso '.$cp->numero_proceso);
+    }
+
+    public function cambiar_fecha_cierre(Request $request,$id){
+        ControlProceso::where('id',$id)
+        ->update([
+                'fecha_cierre'=>$request['fecha_cierre']
             ]);
+        ObservacionProceso::create([
+            'observacion'=>"Cambio fecha de cierre ",
+            'id_usuario_observacion'=>auth()->user()->id,
+            'id_control_proceso'=>$id
+        ]);
+        $cp=ControlProceso::where('id',$id)->first();
+        return back()->with("success",'Fecha cambiada exitosamente, para el proceso '.$cp->numero_proceso);
+    }
+    public function cambiar_estados(Request $request,$proceso){
+        
+        
+        if($request['estado_proceso']!="0"){
+            ControlProceso::where('id',$proceso)
+                ->update([
+                            'estado_proceso'=>$request['estado_proceso']
+                           
+                        ]);
         }
 
-        return  response()->json(['respuesta'=>true,'mensaje'=>'Se agregado los registros satisfactoriamente']);                       
-       
+        if($request['gestion_comercial']!="0"){
+            ControlProceso::where('id',$proceso)
+                ->update([
+                           
+                            'gestion_comercial'=>$request['gestion_comercial']
+                        ]);
+        }
+
+        
+        $cp=ControlProceso::where('id',$proceso)->first();
+        return back()->with("success",'Estado cambiado exitosamente, para el proceso '.$cp->numero_proceso);    
     }
 }

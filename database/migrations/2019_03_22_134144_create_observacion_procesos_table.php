@@ -16,9 +16,8 @@ class CreateObservacionProcesosTable extends Migration
         Schema::create('observacion_procesos', function (Blueprint $table) {
             $table->increments('id');
             $table->string("observacion");
-            $table->integer("id_detalle_empresa_usuario_observacion")->unsigned();
+            $table->integer("id_usuario_observacion")->unsigned();
             $table->integer("id_control_proceso")->unsigned();
-            $table->string("estado_observacion_proceso");
             $table->timestamps();
         });
     }

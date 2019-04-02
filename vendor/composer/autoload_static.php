@@ -433,13 +433,14 @@ class ComposerStaticInit5e451d8a7fcb08d9673199b9e9c630eb
     );
 
     public static $classMap = array (
+        'App\\Console\\Commands\\ProximoCierreProceso' => __DIR__ . '/../..' . '/app/Console/Commands/ProximoCierreProceso.php',
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
         'App\\ControlProceso' => __DIR__ . '/../..' . '/app/ControlProceso.php',
-        'App\\DetalleUsuarioEmpresa' => __DIR__ . '/../..' . '/app/DetalleUsuarioEmpresa.php',
         'App\\Empresa' => __DIR__ . '/../..' . '/app/Empresa.php',
         'App\\Events\\Event' => __DIR__ . '/../..' . '/app/Events/Event.php',
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
         'App\\Http\\Controllers\\Admin\\EmpresasController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/EmpresasController.php',
+        'App\\Http\\Controllers\\Admin\\ProcesosController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/ProcesosController.php',
         'App\\Http\\Controllers\\Admin\\UsuariosController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/UsuariosController.php',
         'App\\Http\\Controllers\\Auth\\ForgotPasswordController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/ForgotPasswordController.php',
         'App\\Http\\Controllers\\Auth\\LoginController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/LoginController.php',

@@ -8,14 +8,20 @@ class ControlProceso extends Model
 {
     //
     protected $fillable = [
-        'numero_proceso', 'link_proceso', 'entidad','objeto','dpto_ciudad','cuantia','fecha_apertura','id_empresa','tipo_proceso','estado_proceso','id_detalle_usuario_empresa_asignado'
+        'numero_proceso', 'link_proceso', 'entidad','objeto','dpto_ciudad','cuantia','fecha_apertura','tipo_proceso','estado_proceso','id_usuario_asignado','id_empresa'
     ];
     public function usuario(){
-        return $this->belongsTo(DetalleUsuarioEmpresa::class,'id_detalle_usuario_empresa_asignado','id_usuario');
+        return $this->belongsTo(User::class,'id_usuario_asignado');
     }    
     public function empresa(){
         return $this->belongsTo(Empresa::class,'id_empresa');
     }
+    public function observaciones(){
+    	return $this->hasMany(ObservacionProceso::class,'id_control_proceso');
+    }
+
+
+
     public static function obtener_datos_archivo($archivo){
     	$inputFileName = realpath('../public/archivos/'.$archivo);
 

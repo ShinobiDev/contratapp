@@ -11,6 +11,10 @@
 |
 */
 
+DB::listen(function($query){
+  //var_dump($query->sql);
+});
+
 Route::group([
     'prefix' => 'admin',
     'middleware' => 'auth',
@@ -25,11 +29,14 @@ Route::group([
     Route::post('editar_usuario/{id}','UsuariosController@update')->name('editar_usuario');
     Route::get('register', 'UsuariosController@create')->name('register');
     Route::post('register', 'UsuariosController@store');
-    Route::post('subir_procesos/{empresa}/{usuario}', 'ProcesosController@subir_archivos_procesos')->name('subir_procesos');
+    Route::post('subir_procesos', 'ProcesosController@subir_archivos_procesos')->name('subir_procesos');
     Route::get('registrar_procesos','ProcesosController@create')->name('registrar_procesos');
     Route::get('consultar_procesos','ProcesosController@index')->name('consultar_procesos');
     Route::post('editar_proceso/{id}','ProcesosController@update')->name('editar_proceso');
-    
+    Route::get('ver_perfil','UsuariosController@ver_perfil')->name('ver_perfil');
+    Route::post('registrar_observacion/{id_proceso}','ProcesosController@registrar_observacion')->name('registrar_observacion');
+    Route::post('cambiar_fecha_cierre/{id_proceso}','ProcesosController@cambiar_fecha_cierre')->name('cambiar_fecha_cierre');
+    Route::post('cambiar_estados/{id_proceso}','ProcesosController@cambiar_estados')->name('cambiar_estados');
     
 
 });

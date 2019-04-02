@@ -45,7 +45,7 @@
 
   <header class="main-header">
     <!-- Logo -->
-    <a href="#" class="logo">
+    <a href="{{route('home')}}" class="logo">
       
       <!-- logo for regular state and mobile devices -->
       <span class="logo-lg"><b>{{ config('app.name')}}</span>
@@ -62,7 +62,7 @@
          
           <!-- User Account: style can be found in dropdown.less -->
           <li class="dropdown user user-menu">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+            <a href="{{route('ver_perfil')}}" class="dropdown-toggle" data-toggle="dropdown">
               <img src="{{ asset('dist/img/user2-160x160.jpg') }}" class="user-image" alt="User Image">
               <span class="hidden-xs">{{auth()->user()->name}}</span>
             </a>
@@ -80,7 +80,7 @@
               <!-- Menu Footer-->
               <li class="user-footer">
                 <div class="pull-left">
-                  <a href="#" class="btn btn-default btn-flat">Perfil</a>
+                  <a href="{{route('ver_perfil')}}" class="btn btn-default btn-flat">Perfil</a>
                 </div>
                 <div class="pull-right">
                   <form id="logout-form" action="{{ route('logout') }}" method="POST">
@@ -107,7 +107,7 @@
           <img src="{{ asset('dist/img/user2-160x160.jpg') }}" class="img-circle" alt="User Image">
         </div>
         <div class="pull-left info">
-          <p>{{auth()->user()->name}}</p>
+          <a href="{{route('ver_perfil')}}"><p>{{auth()->user()->name}}</p></a>
           
         </div>
       </div>
@@ -116,44 +116,107 @@
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu" data-widget="tree">
         <li class="header">Menu principal</li>
-        <li class="active treeview">
-          <a href="#">
-            <i class="fa fa-dashboard"></i> <span>Usuarios</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-            <li class="active"><a href="{{route('register')}}"><i class="fa fa-circle-o"></i> Crear usuarios</a></li>
-            <li><a href="{{route('consultar_usuarios')}}"><i class="fa fa-circle-o"></i> Consultar usuarios</a></li>
-          </ul>
-        </li>
-         <li class="treeview">
-          <a href="#">
-            <i class="fa fa-pie-chart"></i>
-            <span>Empresas</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-            <li><a href="{{route('registrar_empresa')}}"><i class="fa fa-circle-o"></i> Crear empresas</a></li>
-            <li><a href="{{route('consultar_empresas')}}"><i class="fa fa-circle-o"></i> Consultar empresas</a></li>
-          </ul>
-        </li>
-         <li class="treeview">
-          <a href="#">
-            <i class="fa fa-pie-chart"></i>
-            <span>Procesos</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-            <li><a href="{{route('registrar_procesos')}}"><i class="fa fa-circle-o"></i> Registrar procesos</a></li>
-            <li><a href="{{route('consultar_procesos')}}"><i class="fa fa-circle-o"></i> Consultar procesos </a></li>
-          </ul>
-        </li>      
+        @role('Super-Admin')
+            <li class="treeview">
+              <a href="#">
+                <i class="fa fa-dashboard"></i> <span>Usuarios</span>
+                <span class="pull-right-container">
+                  <i class="fa fa-angle-left pull-right"></i>
+                </span>
+              </a>
+              <ul class="treeview-menu">
+                <li><a href="{{route('register')}}"><i class="fa fa-circle-o"></i> Crear usuarios</a></li>
+                <li><a href="{{route('consultar_usuarios')}}"><i class="fa fa-circle-o"></i> Consultar usuarios</a></li>
+              </ul>
+            </li>
+            
+            <li class="treeview">
+                <a href="#">
+                  <i class="fa fa-pie-chart"></i>
+                  <span>Empresas</span>
+                  <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i>
+                  </span>
+                </a>
+                <ul class="treeview-menu">
+                  <li><a href="{{route('registrar_empresa')}}"><i class="fa fa-circle-o"></i> Crear empresas</a></li>
+                  <li><a href="{{route('consultar_empresas')}}"><i class="fa fa-circle-o"></i> Consultar empresas</a></li>
+                </ul>
+            </li>
+            
+            <li class="treeview">
+                <a href="#">
+                  <i class="fa fa-pie-chart"></i>
+                  <span>Procesos</span>
+                  <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i>
+                  </span>
+                </a>
+                <ul class="treeview-menu">
+                  <li><a href="{{route('registrar_procesos')}}"><i class="fa fa-circle-o"></i> Registrar procesos</a></li>
+                  <li><a href="{{route('consultar_procesos')}}"><i class="fa fa-circle-o"></i> Consultar procesos </a></li>
+                </ul>
+            </li>   
+        @else
+          @role('Admin')
+              <li class="treeview">
+              <a href="#">
+                <i class="fa fa-dashboard"></i> <span>Usuarios</span>
+                <span class="pull-right-container">
+                  <i class="fa fa-angle-left pull-right"></i>
+                </span>
+              </a>
+              <ul class="treeview-menu">
+                <li><a href="{{route('register')}}"><i class="fa fa-circle-o"></i> Crear usuarios</a></li>
+                <li><a href="{{route('consultar_usuarios')}}"><i class="fa fa-circle-o"></i> Consultar usuarios</a></li>
+              </ul>
+            </li>
+            
+            <li class="treeview">
+                <a href="#">
+                  <i class="fa fa-pie-chart"></i>
+                  <span>Empresas</span>
+                  <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i>
+                  </span>
+                </a>
+                <ul class="treeview-menu">
+                  <li><a href="{{route('registrar_empresa')}}"><i class="fa fa-circle-o"></i> Crear empresas</a></li>
+                  <li><a href="{{route('consultar_empresas')}}"><i class="fa fa-circle-o"></i> Consultar empresas</a></li>
+                </ul>
+            </li>
+            
+            <li class="treeview">
+                <a href="#">
+                  <i class="fa fa-pie-chart"></i>
+                  <span>Procesos</span>
+                  <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i>
+                  </span>
+                </a>
+                <ul class="treeview-menu">
+                  <li><a href="{{route('registrar_procesos')}}"><i class="fa fa-circle-o"></i> Registrar procesos</a></li>
+                  <li><a href="{{route('consultar_procesos')}}"><i class="fa fa-circle-o"></i> Consultar procesos </a></li>
+                </ul>
+            </li>   
+          @else
+              <li class="treeview">
+                <a href="#">
+                  <i class="fa fa-pie-chart"></i>
+                  <span>Procesos</span>
+                  <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i>
+                  </span>
+                </a>
+                <ul class="treeview-menu">
+                  <li><a href="{{route('registrar_procesos')}}"><i class="fa fa-circle-o"></i> Registrar procesos</a></li>
+                  <li><a href="{{route('consultar_procesos')}}"><i class="fa fa-circle-o"></i> Consultar procesos </a></li>
+                </ul>
+              </li>
+          @endrole
+              
+        @endrole
+          
       </ul>
     </section>
     <!-- /.sidebar -->
@@ -248,6 +311,8 @@
 <link rel="stylesheet" href="{{ asset('plugins/datatables/datatables.min.css') }}">
 <link rel="stylesheet" href="https://cdn.datatables.net/fixedheader/3.1.5/css/fixedHeader.bootstrap.min.css">
 <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.bootstrap.min.css">
+<script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
+
 <!--/tablas responsivas-->    
 @yield('scripts')
 </body>

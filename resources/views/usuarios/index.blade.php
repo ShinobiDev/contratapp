@@ -34,8 +34,28 @@
                           Editar usuario
                         </button>
 
-                        <!-- Modal -->
-                        <div class="modal fade" id="editarusuario{{$u->id}}" tabindex="-1" role="dialog" aria-labelledby="editarusuariolabel" aria-hidden="true">
+                        
+                        
+                    </td>
+                   </tr>
+                @empty
+                    <tr >      
+                      <td class="text-green text-center"><strong><h4>Aun no existen usuarios registradas</h4></strong></td>
+                      <td>
+                        <a href="{{route('register')}}" class="btn btn-info">Crear usuario</a>
+                    </td>
+                   </tr>
+                @endforelse
+
+                
+                
+              </tbody>
+              
+          </table>
+          <a href="{{route('register')}}" class="btn btn-info">Crear usuario</a>
+          <!-- Modal -->
+          @foreach($usuarios as $u)
+            <div class="modal fade" id="editarusuario{{$u->id}}" tabindex="-1" role="dialog" aria-labelledby="editarusuariolabel" aria-hidden="true">
                           <div class="modal-dialog" role="document">
                             <div class="modal-content">
                               <div class="modal-header">
@@ -87,23 +107,7 @@
                             </div>
                           </div>
                         </div>
-                    </td>
-                   </tr>
-                @empty
-                    <tr >      
-                      <td class="text-green text-center"><strong><h4>Aun no existen usuarios registradas</h4></strong></td>
-                      <td>
-                        <a href="{{route('register')}}" class="btn btn-info">Crear usuario</a>
-                    </td>
-                   </tr>
-                @endforelse
-
-                
-                
-              </tbody>
-              
-          </table>
-          <a href="{{route('register')}}" class="btn btn-info">Crear usuario</a>
+          @endforeach
         </div>
     </div>
 </div>
