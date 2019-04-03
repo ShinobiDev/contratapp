@@ -23,7 +23,7 @@ class ProximoCierreProceso extends Command
      *
      * @var string
      */
-    protected $description = 'Este comando notificara de un proximo cierre';
+    protected $description = 'Este comando notificara de un próximo cierre';
 
     /**
      * Create a new command instance.
