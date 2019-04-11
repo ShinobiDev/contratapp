@@ -537,7 +537,7 @@
           <script>
             $(document).ready(function() {
                 $('#selUserEdi').select2();
-                $('#procesos-table').DataTable( {
+                var table=$('#procesos-table').DataTable( {
                     responsive: true,
                     stateSave: true,
                     dom: 'Bfrtip',
@@ -568,10 +568,21 @@
                         }
                     }
                 } );
+                /*$('#procesos-table tbody').on( 'click', 'tr', function () {
+			        if ( $(this).hasClass('selected') ) {
+			            $(this).removeClass('selected');
+			        }
+			        else {
+			            table.$('tr.selected').removeClass('selected');
+			            $(this).addClass('selected');
+			        }
+			    } );*/
                 filtro_url('#procesos-table');
 
 
             });
+
+
           </script>
 
 
