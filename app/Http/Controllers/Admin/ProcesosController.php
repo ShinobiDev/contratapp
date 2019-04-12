@@ -148,7 +148,8 @@ class ProcesosController extends Controller
         foreach($datos as $d ){
             //dump($d);
             $fecha=array_reverse(explode("-",explode("\n",$d[9])[1]));
-            //dump($fecha);
+            
+            $fecha=ControlProceso::validar_fecha($fecha);
             $pro=ControlProceso::where('numero_proceso',$d[1])->get();
             if(count($pro)==0){
                 ControlProceso::create([

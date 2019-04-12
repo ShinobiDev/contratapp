@@ -4,7 +4,7 @@
 @section('content')
 <div class="container">
     <div class="row">
-    	<div class="col-10 col-md-10  col-md-offset-1" >
+    	<div class="col-10 col-md-10 col-sm-10 col-md-offset-1 col-offset-1" >
         	
 	         <div class="list-group">
 			  <a href="#" class="list-group-item active"><h1>Instrucciones <h6>Sigue estos 5 simples pasos para agregar los procesos correctamente</h6></h1></a>

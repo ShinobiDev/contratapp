@@ -38,13 +38,16 @@ class ControlProceso extends Model
             $cellIterator->setIterateOnlyExistingCells(TRUE);
             $mis_celdas=[];
             $c=0;
+
             foreach ($cellIterator as $cell) {
+                 
                  /*echo $cell->getValue()."</br>"; 
                  $arr=explode("?",$cell->getHyperlink()->getUrl());
                  if(count($arr)>1){
                     echo substr($arr[1],0,-2)."<br>";
                  } */
-                 if($cell->getValue()!=""){
+                 //if($cell->getValue()!=""){
+                 if(is_null($cell->getValue())==false){
                  	 $arr=explode("?",$cell->getHyperlink()->getUrl());
 	                 if(count($arr)>1){
 	                    $mis_celdas[$c]=(string)$cell->getValue();
@@ -69,5 +72,54 @@ class ControlProceso extends Model
             $f++;
         }
         return $mis_datos;
+    }
+
+    public static function validar_fecha($fecha){
+        
+
+
+        switch ($fecha[1]) {
+            case 'JAN':
+                $fecha[1]='01';
+                break;
+            case 'FEB':
+                $fecha[1]='02';
+                break;
+            case 'MAR':
+                $fecha[1]='03';
+                break;    
+            case 'APR':
+                $fecha[1]='04';
+                break;
+            case 'MAY':
+                $fecha[1]='05';
+                break;
+            case 'JUN':
+                $fecha[1]='06';
+                break;
+            case 'JUL':
+                $fecha[1]='07';
+                break;
+            case 'AUG':
+                $fecha[1]='08';
+                break;
+            case 'SEP':
+                $fecha[1]='09';
+                break;
+            case 'OCT':
+                $fecha[1]='10';
+                break;
+            case 'NOV':
+                $fecha[1]='11';
+                break;
+            case 'DEC':
+                $fecha[1]='12';
+                break;                
+            default:
+                # code...
+                break;
+        }
+
+        return $fecha;
     }
 }

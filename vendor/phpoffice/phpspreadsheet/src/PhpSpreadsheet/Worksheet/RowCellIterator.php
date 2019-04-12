@@ -181,6 +181,7 @@ class RowCellIterator extends CellIterator
             while ((!$this->worksheet->cellExistsByColumnAndRow($this->startColumnIndex, $this->rowIndex)) && ($this->startColumnIndex <= $this->endColumnIndex)) {
                 ++$this->startColumnIndex;
             }
+
             if ($this->startColumnIndex > $this->endColumnIndex) {
                 throw new PhpSpreadsheetException('No cells exist within the specified range');
             }

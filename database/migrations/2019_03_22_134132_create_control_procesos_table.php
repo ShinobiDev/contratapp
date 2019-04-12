@@ -18,7 +18,7 @@ class CreateControlProcesosTable extends Migration
             $table->string("numero_proceso");
             $table->string("link_proceso",512);
             $table->string("entidad");
-            $table->string("objeto",512);
+            $table->string("objeto",2048);
             $table->string("dpto_ciudad");
             $table->string("cuantia");
             $table->date("fecha_apertura");  
