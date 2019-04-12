@@ -150,7 +150,7 @@ class ProcesosController extends Controller
             $fecha=array_reverse(explode("-",explode("\n",$d[9])[1]));
             
             $fecha=ControlProceso::validar_fecha($fecha);
-            $pro=ControlProceso::where('numero_proceso',$d[1])->get();
+            $pro=ControlProceso::where('link_proceso',$d[2])->get();
             if(count($pro)==0){
                 ControlProceso::create([
                     'numero_proceso'=>$d[1],
