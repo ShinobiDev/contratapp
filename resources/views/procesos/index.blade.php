@@ -57,8 +57,9 @@
 		                        	<button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#registrarproceso{{$p->id}}">
 		                          		Registrar Observación
 		                        	</button>
+
 		                        	<button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#fechacierreproceso{{$p->id}}">
-		                          		Cambiar fecha cierre proceso
+		                          		{{$variable = $p->fecha_cierre != '' ? 'Cambiar fecha cierre proceso' : 'Asignar fecha cierre proceso'}}
 		                        	</button>
 		                        	<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#verobservacionesproceso{{$p->id}}">
 		                          		Ver observaciones
@@ -72,7 +73,7 @@
 		                          		Cambiar usuario
 		                        	</button>
 		                        	<button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#fechacierreproceso{{$p->id}}">
-		                          		Cambiar fecha cierre proceso
+		                          		{{$variable = $p->fecha_cierre != '' ? 'Cambiar fecha cierre proceso' : 'Asignar fecha cierre proceso'}}
 		                        	</button>
 		                        	<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#verobservacionesproceso{{$p->id}}">
 		                          		Ver observaciones
@@ -168,7 +169,7 @@
 		                                  <div class="form-group">
 		                                  	  
 		                                   <label for="exampleFormControlTextarea1">Fecha de cierre</label>
-		                                   <input type="date" name="fecha_cierre" value="{{$p->fecha_cierre}}">
+		                                   <input type="date" name="fecha_cierre" value="{{$p->fecha_cierre}}" min="{{date('Y-m-d')}}">
 		                                    
 		                                  </div>
 		                                 
@@ -531,12 +532,13 @@
     </div>
 </div>        	
 @endsection
-@include('partials.scripts')
+
 @section('scripts')
 
           <script>
             $(document).ready(function() {
                 $('#selUserEdi').select2();
+
                 var table=$('#procesos-table').DataTable( {
                     responsive: true,
                     stateSave: true,
@@ -568,16 +570,29 @@
                         }
                     }
                 } );
-                /*$('#procesos-table tbody').on( 'click', 'tr', function () {
+                if(sessionStorage.getItem("este")!="" && sessionStorage.este != undefined){
+                	table.$('tr.selected').removeClass('selected');
+                    $("#"+sessionStorage.getItem("este")).addClass('selected');
+                }
+                $('#procesos-table tbody').on( 'click', 'tr', function () {
 			        if ( $(this).hasClass('selected') ) {
 			            $(this).removeClass('selected');
 			        }
 			        else {
 			            table.$('tr.selected').removeClass('selected');
 			            $(this).addClass('selected');
+			            
+			            if(this.id!=""){
+			            	console.log(this.id);
+			            	sessionStorage.setItem("este", this.id);
+
+			            }else{
+			            	console.log("vacio");
+			            	console.log(this.id);
+			            }
 			        }
-			    } );*/
-                filtro_url('#procesos-table');
+			    } );
+                //filtro_url('#procesos-table');
 
 
             });
@@ -587,3 +602,4 @@
 
 
 @endsection
+@include('partials.scripts')
