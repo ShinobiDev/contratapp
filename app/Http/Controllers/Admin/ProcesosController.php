@@ -48,10 +48,35 @@ class ProcesosController extends Controller
     public function create()
     {
         //
-        $em=Empresa::all();
+        
         if(auth()->user()->getRoleNames()[0]!='Comerciante'){
-            $us=User::role('Comerciante')->get();
+            
+            if(auth()->user()->getRoleNames()[0]=='Admin'){
+                $em=Empresa::where("id",auth()->user()->detalle_empresa_usuario->first()->id_empresa)->get();
+
+
+                $u=User::role('Comerciante')->get();
+                $i=0;
+                foreach ($u as $key => $value) {
+                    if($value->detalle_empresa_usuario->first()->id_empresa==$em[0]->id){
+                        $filtro[$i++]=$value->detalle_empresa_usuario->first()->id_usuario;
+                    }    
+                    
+                }
+                
+                
+                $us=User::whereIn('id',$filtro)->get();
+                
+                
+            }else{
+
+                $em=Empresa::all();
+                $us=User::role('Comerciante')->get();
+            }
+            
         }else{
+            //si es comerciante 
+            $em=Empresa::where("id",auth()->user()->detalle_empresa_usuario->first()->id_empresa)->get();
             $us=auth()->user();
         }
         return view('procesos.register')
@@ -105,9 +130,12 @@ class ProcesosController extends Controller
         //dd($request,$id);
         
         ControlProceso::where('id',$id)->update(['id_usuario_asignado'=>$request['nuevo_usuario']]);
+            $uu=User::where('id',$request['nuevo_usuario'])->first();
+
          ObservacionProceso::create([
-            'observacion'=>"Cambio de usuario ",
+            'observacion'=>"Cambio de usuarios asignada a ".$uu->id.' - '. $uu->name,
             'id_usuario_observacion'=>auth()->user()->id,
+            'tipo_observacion'=>'auto',
             'id_control_proceso'=>$id
         ]);
         $cp=ControlProceso::where('id',$id)->first(); 
@@ -188,20 +216,27 @@ class ProcesosController extends Controller
         ObservacionProceso::create([
             'observacion'=>$request['observacion'],
             'id_usuario_observacion'=>$request['id_usuario'],
-            'id_control_proceso'=>$id
+            'id_control_proceso'=>$id,
+            'tipo_observacion'=>'manual'
         ]);
         $cp=ControlProceso::where('id',$id)->first();
         return back()->with("success",'Observación registrada exitosamente, para el proceso '.$cp->numero_proceso);
     }
 
     public function cambiar_fecha_cierre(Request $request,$id){
+
+        $this->validate(request(),[
+            'fecha_cierre'=>'required'
+
+        ]);
         ControlProceso::where('id',$id)
         ->update([
                 'fecha_cierre'=>$request['fecha_cierre']
             ]);
         ObservacionProceso::create([
-            'observacion'=>"Cambio fecha de cierre ",
+            'observacion'=>"Cambio fecha de cierre : ".$request['fecha_cierre'],
             'id_usuario_observacion'=>auth()->user()->id,
+            'tipo_observacion'=>'auto',
             'id_control_proceso'=>$id
         ]);
         $cp=ControlProceso::where('id',$id)->first();
@@ -211,6 +246,14 @@ class ProcesosController extends Controller
         
         
         if($request['estado_proceso']!="0"){
+            
+            ObservacionProceso::create([
+                'observacion'=>"Cambio estado proceso : ".$request['estado_proceso'],
+                'id_usuario_observacion'=>auth()->user()->id,
+                'tipo_observacion'=>'auto',
+                'id_control_proceso'=>$proceso
+            ]);
+
             ControlProceso::where('id',$proceso)
                 ->update([
                             'estado_proceso'=>$request['estado_proceso']
@@ -219,6 +262,14 @@ class ProcesosController extends Controller
         }
 
         if($request['gestion_comercial']!="0"){
+
+            ObservacionProceso::create([
+                'observacion'=>"Cambio estado gestión comercial : ".$request['gestion_comercial'],
+                'id_usuario_observacion'=>auth()->user()->id,
+                'tipo_observacion'=>'auto',
+                'id_control_proceso'=>$proceso
+            ]);
+
             ControlProceso::where('id',$proceso)
                 ->update([
                            

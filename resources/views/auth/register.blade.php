@@ -46,7 +46,7 @@
 
                             <div class="col-md-6">
                                 
-                                <select class="form-control"  name="rol" id="selRoles" onchange="validar_rol(this);" required>
+                                <select class="form-control"  name="rol" id="selRoles" onchange="validar_rol(this);" value="old('rol')" required>
                                      <option>selecciona un rol</option>   
                                           
                                           @role('Admin')
@@ -76,12 +76,12 @@
                                 @endif
                             </div>
                         </div>
-                        {{--<div class="form-group{{ $errors->has('empresa') ? ' has-error' : '' }}">
+                        <div class="form-group{{ $errors->has('empresa') ? ' has-error' : '' }}">
                             <label for="email" class="col-md-4 control-label">Empresa</label>
 
                             <div class="col-md-6">
                                 
-                                <select class="form-control"  name="empresa" id="selEmpresas" required>
+                                <select class="form-control"  name="empresa" id="selEmpresas" value="old('empresa')" required>
                                     <option>selecciona una empresa</option>   
                                   @forelse ($empresas as $e)
                                     <option value="{{$e->id}}">{{$e->nombre_empresa}}</option>
@@ -96,7 +96,7 @@
                                     </span>
                                 @endif
                             </div>
-                        </div>--}}
+                        </div>
                         <div class="form-group">
                             <div class=" text-center">
                                 <span class="text-info">Las credenciales de accesos seran enviadas a el correo electrónico registrado</span>    

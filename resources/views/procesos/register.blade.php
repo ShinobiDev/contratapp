@@ -2,15 +2,15 @@
 @section('header')
 @endsection
 @section('content')
-<div class="container">
+<div class="container-fluid">
     <div class="row">
-    	<div class="col-10 col-md-10 col-sm-10 col-md-offset-1 col-offset-1" >
+    	<div class="col-10 col-md-10 col-sm-10 col-md-offset-1 col-offset-1 responsive" >
         	
-	         <div class="list-group">
-			  <a href="#" class="list-group-item active"><h1>Instrucciones <h6>Sigue estos 5 simples pasos para agregar los procesos correctamente</h6></h1></a>
-			  <a href="{{asset('archivos/plantilla/Control Procesos Estatales Plantilla.xlsx')}}" class="list-group-item"> 1- Descarga la plantilla <small>(Dando clic aquí)</small></a>
-			  <a href="https://www.contratos.gov.co/consultas/inicioConsulta.do" target="_blank" class="list-group-item"> 2- Ingresa a el sitio web contratos.gov.co <small>(Puedes acceder danco clic aquí)</small></a>
-			  <a href="#" class="list-group-item"> 3- Filtra y copia en el navegador, luego de esto pega en las casillas del archivo no olvides que deben tener el mismo orden y no pueden quedar filas incompletas</a>
+	         <div class="list-group ">
+			  <a href="#" class="list-group-item active"><h1>Instrucciones <h6>Sigue estos <strong>5 simples pasos</strong> para agregar los procesos correctamente.</h6></h1></a>
+			  <a href="{{asset('archivos/plantilla/Control Procesos Estatales Plantilla.xlsx')}}" class="list-group-item list-group-item-danger"> 1- Descarga la plantilla <small class="text-red">(Dando clic aquí)</small>.</a>
+			  <a href="https://www.contratos.gov.co/consultas/inicioConsulta.do" target="_blank" class="list-group-item"> 2- Ingresa a el sitio web contratos.gov.co <small class="text-success">(Puedes acceder danco clic aquí)</small>.</a>
+			  <a href="#" class="list-group-item list-group-item-danger"> 3- Filtra y copia en el navegador, luego de esto pega en las casillas del archivo no olvides que deben tener el mismo orden y no pueden quedar filas incompletas.</a>
 			  <a href="#" class="list-group-item"> 
 			  	
 			  	@role('Comerciante')
@@ -20,10 +20,50 @@
 			  	@endrole
 
 			  </a>
-			  <a href="#" class="list-group-item"> 5- Arrastra o da clic en el rectangulo para subir tu archivo, esto puedo tardar un poco, también recuerda que no se agregaran a la base de datos procesos repetidos.</a>
+			  <a href="#" class="list-group-item list-group-item-danger"> 5- Arrastra o da clic en el rectangulo para subir tu archivo, esto puedo tardar un poco, recuerda que no se agregaran a la base de datos procesos repetidos.</a>
+
+			  <a href="{{route('consultar_procesos')}}" class="list-group-item tex" > 6- Consulta los procesos <small class="text-info">(Ver procesos)</small>.</a>
+
 			</div> 
         </div>
         <div class="col-md-10 col-md-offset-1">
+        	
+        	<!--SELECCION DE UN USUARIO-->
+        	@role('Comerciante')
+
+        		<input type="hidden" id="selUsuario" value="{{$empresas[0]->id}}"/>
+	        		Tu empresa asignada es: <h4 class="text-info"><strong> {{$empresas[0]->nombre_empresa}}<strong></h4>
+	        	
+        	@else
+        		@role('Super-Admin')
+	        		<div>
+		        		<label>Selecciona una empresa</label>
+			        	<select class="form-control" id="selEmpresa" >
+			        		<option value="">SELECCIONA UNA EMPRESA</option>
+			        		@forelse($empresas as $e)
+			        			<option value="{{$e->id}}">{{$e->nombre_empresa}}</option>
+			        		@empty
+			        		
+			        		@endforelse
+			        	</select>
+	        		</div>
+        		@else
+        			<div>
+		        		<label>Selecciona una empresa</label>
+
+			        	<select class="form-control" id="selEmpresa" >
+			        		@forelse($empresas as $e)
+			        			<option value="{{$e->id}}">{{$e->nombre_empresa}}</option>
+			        		@empty
+			        		
+			        		@endforelse
+			        	</select>
+	        		</div>
+        		@endif
+
+        	@endrole
+
+        	<!--SELECCION DE UN USUARIO-->
         	@role('Comerciante')
 
         		<input type="hidden" id="selUsuario" value="{{$usuarios->id}}"/>
@@ -33,26 +73,18 @@
         		<div>
         			<label>Selecciona un usuario</label>
 		        	<select class="form-control" id="selUsuario" name="usuario">
+		        		<option value="">SELECCIONA UN USUARIO</option>
 		        		@forelse($usuarios as $u)
-		        			<option value="{{$u->id}}">{{$u->name}}</option>
+		        			<option value="{{$u->id}}">{{$u->name}} {{$u->getRoleNames()[0]}}</option>
 		        		@empty
 		        		
 		        		@endforelse
 		        	</select>
         		</div>
 
-        	@endrole
-        	<div>
-        		<label>Selecciona una empresa</label>
-	        	<select class="form-control" id="selEmpresa" >
-	        		@forelse($empresas as $e)
-	        			<option value="{{$e->id}}">{{$e->nombre_empresa}}</option>
-	        		@empty
-	        		
-	        		@endforelse
-	        	</select>
-        	</div>
+        	@endrole	
           	<div>
+          		<br>
           		<div class="dropzone"></div>
           		<span id="spmsn" class="text-green"></span>	
           		
@@ -90,7 +122,7 @@
 		acceptedFiles:'application/csv,application/excel,application/vnd.ms-excel, application/vnd.msexcel,text/csv, text/anytext, text/plain, text/x-c,text/comma-separated-values,inode/x-empty,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
 		maxFilesize:5,
 		maxFiles:1,
-		dictDefaultMessage:'Arrastra o da clic aquí para subir tus archivos, recurda que deben ser archivos excel',
+		dictDefaultMessage:'Arrastra o da clic aquí para subir tus archivos, recurda que deben ser archivos excel, solo se permite la carga de un (1) archivo.',
 		headers:{
 			'X-CSRF-TOKEN':'{{ csrf_token()}}'
 		},

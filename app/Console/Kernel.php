@@ -26,7 +26,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->command('proceso:cierre_proximo')
-                  ->dailyAt('08:00')
+                  ->dailyAt('07:59')
                   ->timezone('America/Bogota');
     }
 

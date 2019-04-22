@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 use Spatie\Permission\Models\Role;
 use App\Events\Event;
 use App\User;
-use App\DetalleUsuarioEmpresa;
+use App\DetalleEmpresaUsuario;
 use App\Empresa;
 
 class UsuariosController extends Controller
@@ -91,10 +91,13 @@ class UsuariosController extends Controller
         $u->save();
         $u->assignRole(Role::where('id',$data['rol'])->first());
 
-       
+        $due= new DetalleEmpresaUsuario;
+        $due->id_empresa=$data['empresa'];
+        $due->id_usuario=$u->id;
+        $due->save();       
         Event::dispatch($u, $data['password'],"UsuarioCreado");
 
-        return back()->with("success",'Usuario creado exitosamente');
+        return back()->with("success",'Hemos creado el usuario exitosamente.');
     }
 
     /**

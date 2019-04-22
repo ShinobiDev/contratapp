@@ -47,6 +47,7 @@ class ProximoCierreProceso extends Command
         //dump($tresdiasdespues,$procesos);
         $uadmin=User::role('Admin')->get();
         $suadmin=User::role('Super-Admin')->get();
+        //FAKLTA ENVIAR MAIL AL EMPLEADO
         //dd($uadmin);
         foreach ($procesos as $key => $value) {
                 foreach($uadmin as $u){

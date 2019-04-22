@@ -4,9 +4,9 @@
 @endsection
 
 @section('content')
-<div class="container">
+<div class="container-fluid">
     <div class="row">
-        <div class="col-11 col-md-11">
+        <div class="col-12 col-md-12 col-sm-12">
 
 
 			<table id="procesos-table" class="table table-striped table-codensed table-hover table-resposive">
@@ -23,8 +23,7 @@
 		                  <th>Fecha apertura</th>
 		                  <th>Fecha cierre</th>
 		                  <th>Empresa</th>
-		                  <th>Usuario</th>
-		                  
+		                  <th>Usuario</th>		                  
 		                  <th>Acción</th>
 
 		                </tr>
@@ -47,8 +46,8 @@
 		                      <td>{{$p->dpto_ciudad}}</td>	
 		                      <td><strong class="text-green">${{$p->cuantia}}</strong></td>	
 		                      <td>{{$p->fecha_apertura}}</td>	
-		                      <td>{{$p->fecha_cierre}}</td>	
-		                      <td>{{$p->empresa->nombre_empresa}}</td>	
+		                      <td ><label class="text-info">{{$f = ($p->fecha_cierre != null) ? $p->fecha_cierre : 'Sin asignar'}}</label></td>	
+		                      <td><strong>{{$p->empresa->nombre_empresa}}</strong></td>	
 		                      <td>{{$p->usuario->name}}</td>	
 		                      
 		                      <td>
@@ -62,7 +61,7 @@
 		                          		{{$variable = $p->fecha_cierre != '' ? 'Cambiar fecha cierre proceso' : 'Asignar fecha cierre proceso'}}
 		                        	</button>
 		                        	<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#verobservacionesproceso{{$p->id}}">
-		                          		Ver observaciones
+		                          		Ver observaciones 
 		                        	</button>
 		                        	<button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#cambiarestadoproceso{{$p->id}}">
 		                          		Cambiar estado
@@ -115,417 +114,37 @@
 
 		    @foreach($procesos as $p)
 		    	@role('Comerciante')
-		    		<!--MODAL PARA REGISTRAR UNA OBSERVACION-->
-		    		<div class="modal fade" id="registrarproceso{{$p->id}}" tabindex="-1" role="dialog" aria-labelledby="registrarprocesoabel" aria-hidden="true">
-		                          <div class="modal-dialog" role="document">
-		                            <div class="modal-content">
-		                              <div class="modal-header">
-		                                <h5 class="modal-title" id="editarempresalabel">Regitro de observaciones del proceso <strong>{{$p->numero_proceso}}</strong></h5>
-		                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-		                                  <span aria-hidden="true">&times;</span>
-		                                </button>
-		                              </div>
-		                              <div class="modal-body">
-		                                
-		                                <form  method="POST" action="{{ route('registrar_observacion',$p->id) }}">
-		                                  <div class="form-group">
-		                                      {{ csrf_field() }}
-		                                  </div>  
-		                                  <div class="form-group">
-		                                  	  
-		                                   <label for="exampleFormControlTextarea1">Observación</label>
-		                                   <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="observacion" placeholder="Ingresa aquí las observaciones del proceso"></textarea>
-		                                   <input type="hidden" name="id_usuario" value="{{auth()->user()->id}}">
-
-		                                    
-		                                  </div>
-		                                 
-		                                  <button type="submit" class="btn btn-info">Guardar Observación</button>    
-		                                </form>
-		                              </div>
-		                              <div class="modal-footer">
-		                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Salir</button>
-		                                
-		                              </div>
-		                            </div>
-		                          </div>
-		            </div>
-		            <!--MODAL PARA CAMBIAR FECHA CIERRE-->
-		            <div class="modal fade" id="fechacierreproceso{{$p->id}}" tabindex="-1" role="dialog" aria-labelledby="registrarprocesoabel" aria-hidden="true">
-		                          <div class="modal-dialog" role="document">
-		                            <div class="modal-content">
-		                              <div class="modal-header">
-		                                <h5 class="modal-title" id="editarempresalabel">Fecha de cierre del proceso <strong>{{$p->numero_proceso}}</strong></h5>
-		                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-		                                  <span aria-hidden="true">&times;</span>
-		                                </button>
-		                              </div>
-		                              <div class="modal-body">
-		                                
-		                                <form  method="POST" action="{{ route('cambiar_fecha_cierre',$p->id) }}">
-		                                  <div class="form-group">
-		                                      {{ csrf_field() }}
-		                                  </div>  
-		                                  <div class="form-group">
-		                                  	  
-		                                   <label for="exampleFormControlTextarea1">Fecha de cierre</label>
-		                                   <input type="date" name="fecha_cierre" value="{{$p->fecha_cierre}}" min="{{date('Y-m-d')}}">
-		                                    
-		                                  </div>
-		                                 
-		                                  <button type="submit" class="btn btn-success">Guardar Fecha de cierre</button>    
-		                                </form>
-		                              </div>
-		                              <div class="modal-footer">
-		                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Salir</button>
-		                                
-		                              </div>
-		                            </div>
-		                          </div>
-		            </div>
-		            <!--MODAL PARA VER OBSERVACIONES-->
-		            <div class="modal fade" id="verobservacionesproceso{{$p->id}}" tabindex="-1" role="dialog" aria-labelledby="registrarprocesoabel" aria-hidden="true">
-		                          <div class="modal-dialog" role="document">
-		                            <div class="modal-content">
-		                              <div class="modal-header">
-		                                <h5 class="modal-title" id="editarempresalabel">Observaciones del proceso <strong>{{$p->numero_proceso}}</strong></h5>
-		                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-		                                  <span aria-hidden="true">&times;</span>
-		                                </button>
-		                              </div>
-		                              <div class="modal-body">
-		                                
-		                               
-		                                  <div class="form-group">
-		                                  	  
-		                                   <label for="exampleFormControlTextarea1">Observaciones</label>
-		                                   
-		                                  </div>
-		                                  <div class="form-group">
-		                                  	
-		                                  	
-
-		                                   <table class="table">
-											  <thead>
-											    <tr>
-											      
-											      <th scope="col">Usuario</th>
-											      <th scope="col">Observación</th>
-											      <th scope="col">Fecha Observación</th>
-											    </tr>
-											  </thead>
-
-											  <tbody>
-											  	@forelse($p->observaciones as $ob)
-
-				                                  	@if($ob->observacion != null)
-				                                   		
-				                                   		 
-				                                   		<tr>
-													      <th scope="row">{{$ob->usuario_observaciones->name}}</th>	      
-													      <td>{{$ob->observacion}}</td>
-													      <td>{{$ob->created_at}}</td>
-													    </tr>
-				                                   		
-				                                   	@endif		                                   		
-			                                   	@empty
-			                                   		<tr>
-												      <th scope="row" colspan="3">No hay observaciones registradas para el proceso <strong>{{$p->numero_proceso}}</strong></th>	      
-												      
-												    </tr>
-			                                   	 
-			                                    @endforelse
-
-											    
-											  </tbody>
-											</table>
-
-
-
-		                                  </div>
-		                                 
-		                                  
-		                              </div>
-		                              <div class="modal-footer">
-		                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Salir</button>
-		                                
-		                              </div>
-		                            </div>
-		                          </div>
-		            </div>
+		    		
+		            <!--MODAL PARA CAMBIAR USUARIO PROCESO-->
+						@include('partials.editarproceso')
+					<!--/ MODAL PARA CAMBIAR USUARIO PROCESO-->       				
+		         	<!--MODAL PARA CAMBIAR FECHA CIERRE-->
+		            	@include('partials.fechacierreproceso')
+		            <!--/MODAL PARA CAMBIAR FECHA CIERRE-->
+		            <!--MODAL PARA VER OBSERVACIONES DE PROCESOS-->
+		            	@include('partials.verobservacionesproceso')
+		            <!--MODAL PARA VER OBSERVACIONES DE PROCESOS-->
 		            <!--MODAL PARA CAMBIAR ESTADOSS-->
-		            <div class="modal fade" id="cambiarestadoproceso{{$p->id}}" tabindex="-1" role="dialog" aria-labelledby="cambiarestadoprocesolabel" aria-hidden="true">
-		                          <div class="modal-dialog" role="document">
-		                            <div class="modal-content">
-		                              <div class="modal-header">
-		                                <h5 class="modal-title" id="editarempresalabel">Cambiar estado del proceso <strong>{{$p->numero_proceso}}</strong></h5>
-		                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-		                                  <span aria-hidden="true">&times;</span>
-		                                </button>
-		                              </div>
-		                              <div class="modal-body">
-		                                
-		                               
-		                                <form  method="POST" action="{{ route('cambiar_estados',$p->id) }}">
-			                                  <div class="form-group">
-			                                      {{ csrf_field() }}
-			                                  </div>  
-		                                 	 <div class="form-group">
-		                                  	  
-			                                   <label for="exampleFormControlTextarea1">Estado actual: <strong class="text-red">{{$p->estado_proceso}}</strong></label>
-			                                   <select id="selEstado" class="form-control" name="estado_proceso">
-			                                   		<option value="0">Selecciona un nuevo estado</option>
-			                                   		<option value='Borrador'>Borrador</option>
-			                                   		<option value="Convocado">Convocado</option>
-			                                   		<option value="Adjudicado">Adjudicado</option>
-			                                   		<option value="Celebrado">Celebrado</option>
-			                                   		<option value="Liquidado">Liquidado</option>
-			                                   		<option value="Descartado">Descartado</option>
-			                                   		<option value="Terminado Anormalmente después de Convocado">Terminado Anormalmente después de Convocado</option>
-			                                   		<option value="Terminado sin Liquidar">Terminado sin Liquidar</option>
-			                                   		
-			                                   </select>
-			                                   
-			                                  </div>
-			                                  <div class="form-group">
-				                                  	<label for="exampleFormControlTextarea1">Gestión comercial proceso: <strong class="text-green">{{$p->gestion_comercial}}</strong></label>
-				                                  	<select id="selGestion" class="form-control" name="gestion_comercial">
-				                                   		<option value="0">Selecciona un nuevo estado</option>
-				                                   		<option value="Encontrado">Encontrado</option>
-				                                   		<option value="No cumplimos">No cumplimos</option>
-				                                   		<option value="Pendiente Propuesta">Pendiente Propuesta</option>
-				                                   		<option value="Propuesta Presentada">Propuesta Presentada</option>
-				                                   		<option value="Adjudicado">Adjudicado</option>
-				                                   		<option value="No Adjudicado">No Adjudicado</option>
-					                                </select>	
-			                                  </div>
-			                                   <button type="submit" class="btn btn-warning">Guardar cambios</button>  
-		                                </form>
-		                                 
-		                                  
-		                              </div>
-		                              <div class="modal-footer">
-		                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Salir</button>
-		                                
-		                              </div>
-		                            </div>
-		                          </div>
-		            </div>
+		            	@include('partials.cambiarestadoproceso')
+					<!--/MODAL PARA CAMBIAR ESTADOSS-->
+					<!--MODAL PARA REGISTRAR UNA OBSERVACION-->
+						@include('partials.registrarproceso')
+					<!--/MODAL PARA REGISTRAR UNA OBSERVACION-->
+					
 		        @else
-		        	<!--MODAL PARA CAMBIAR USUARIO PROCESO-->
-		        	<div class="modal fade" id="editarproceso{{$p->id}}" tabindex="-1" role="dialog" aria-labelledby="editarprocesoabel" aria-hidden="true">
-		                          <div class="modal-dialog" role="document">
-		                            <div class="modal-content">
-		                              <div class="modal-header">
-		                                <h5 class="modal-title" id="editarempresalabel">Cambiar usuario del proceso <strong>{{$p->numero_proceso}}</strong></h5>
-		                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-		                                  <span aria-hidden="true">&times;</span>
-		                                </button>
-		                              </div>
-		                              <div class="modal-body">
-		                                
-		                                <form  method="POST" action="{{ route('editar_proceso',$p->id) }}">
-		                                  <div class="form-group">
-		                                      {{ csrf_field() }}
-		                                  </div>  
-		                                  <div class="form-group">
-		                                  	  
-		                                    <label for="exampleInputEmail1"> Usuario asignado</label>
-		                                   </div>
-		                                   <div class="form-group">
-		                                   
-			                                <select class="form-control"  name="nuevo_usuario" id="selUserEdi"  >
-	                                             <option>selecciona un usuario</option>   
-	                                         
-
-
-	                                          @forelse ($users as $u)
-	                                          	
-	                                            @if($u->name==$p->usuario->name)
-	                                              <option value="{{$p->usuario->id}}" selected>{{$u->name}}</option>
-	                                            @else
-	                                            
-	                                              <option value="{{$u->id}}">{{$u->name}}</option>
-	                                            @endif
-	                                            
-	                                          @empty
-	                                            <option>No hay roles</option>
-	                                          @endforelse
-	                                        </select>
-		                                    
-		                                  </div>
-		                                 	
-		                                  <button type="submit" class="btn btn-info">Guardar cambios</button>    
-		                                </form>
-		                              </div>
-		                              <div class="modal-footer">
-		                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Salir</button>
-		                                
-		                              </div>
-		                            </div>
-		                          </div>
-		            </div>           
-		         
-		            <!--MODAL PARA CAMBIAR FECHA CIERRE-->
-		            <div class="modal fade" id="fechacierreproceso{{$p->id}}" tabindex="-1" role="dialog" aria-labelledby="registrarprocesoabel" aria-hidden="true">
-		                          <div class="modal-dialog" role="document">
-		                            <div class="modal-content">
-		                              <div class="modal-header">
-		                                <h5 class="modal-title" id="editarempresalabel">Fecha de cierre del proceso <strong>{{$p->numero_proceso}}</strong></h5>
-		                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-		                                  <span aria-hidden="true">&times;</span>
-		                                </button>
-		                              </div>
-		                              <div class="modal-body">
-		                                
-		                                <form  method="POST" action="{{ route('cambiar_fecha_cierre',$p->id) }}">
-		                                  <div class="form-group">
-		                                      {{ csrf_field() }}
-		                                  </div>  
-		                                  <div class="form-group">
-		                                  	  
-		                                   <label for="exampleFormControlTextarea1">Fecha de cierre</label>
-		                                   <input type="date" name="fecha_cierre" value="{{$p->fecha_cierre}}">
-		                                    
-		                                  </div>
-		                                 
-		                                  <button type="submit" class="btn btn-success">Guardar Fecha de cierre</button>    
-		                                </form>
-		                              </div>
-		                              <div class="modal-footer">
-		                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Salir</button>
-		                                
-		                              </div>
-		                            </div>
-		                          </div>
-		            </div>
-		            <div class="modal fade" id="verobservacionesproceso{{$p->id}}" tabindex="-1" role="dialog" aria-labelledby="registrarprocesoabel" aria-hidden="true">
-		                          <div class="modal-dialog" role="document">
-		                            <div class="modal-content">
-		                              <div class="modal-header">
-		                                <h5 class="modal-title" id="editarempresalabel">Observaciones del proceso <strong>{{$p->numero_proceso}}</strong></h5>
-		                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-		                                  <span aria-hidden="true">&times;</span>
-		                                </button>
-		                              </div>
-		                              <div class="modal-body">
-		                                
-		                               
-		                                  <div class="form-group">
-		                                  	  
-		                                   <label for="exampleFormControlTextarea1">Observaciones</label>
-		                                   
-		                                  </div>
-		                                  <div class="form-group">
-		                                  	
-		                                  	
-
-		                                   <table class="table">
-											  <thead>
-											    <tr>
-											      
-											      <th scope="col">Usuario</th>
-											      <th scope="col">Observación</th>
-											      <th scope="col">Fecha Observación</th>
-											    </tr>
-											  </thead>
-
-											  <tbody>
-											  	@forelse($p->observaciones as $ob)
-
-				                                  	@if($ob->observacion != null)
-				                                   		
-				                                   		 
-				                                   		<tr>
-													      <th scope="row">{{$ob->usuario_observaciones->name}}</th>	      
-													      <td>{{$ob->observacion}}</td>
-													      <td>{{$ob->created_at}}</td>
-													    </tr>
-				                                   		
-				                                   	@endif		                                   		
-			                                   	@empty
-			                                   		<tr>
-												      <th scope="row" colspan="3">No hay observaciones registradas para el proceso <strong>{{$p->numero_proceso}}</strong></th>	      
-												      
-												    </tr>
-			                                   	 
-			                                    @endforelse
-
-											    
-											  </tbody>
-											</table>
-
-
-
-		                                  </div>
-		                                 
-		                                  
-		                              </div>
-		                              <div class="modal-footer">
-		                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Salir</button>
-		                                
-		                              </div>
-		                            </div>
-		                          </div>
-		            </div>
+		        	
+					<!--MODAL PARA CAMBIAR USUARIO PROCESO-->
+						@include('partials.editarproceso')
+					<!--/ MODAL PARA CAMBIAR USUARIO PROCESO-->       				
+		         	<!--MODAL PARA CAMBIAR FECHA CIERRE-->
+		            	@include('partials.fechacierreproceso')
+		            <!--/MODAL PARA CAMBIAR FECHA CIERRE-->
+		            <!--MODAL PARA VER OBSERVACIONES DE PROCESOS-->
+		            	@include('partials.verobservacionesproceso')
+		            <!--MODAL PARA VER OBSERVACIONES DE PROCESOS-->
 		            <!--MODAL PARA CAMBIAR ESTADOSS-->
-		            <div class="modal fade" id="cambiarestadoproceso{{$p->id}}" tabindex="-1" role="dialog" aria-labelledby="cambiarestadoprocesolabel" aria-hidden="true">
-		                          <div class="modal-dialog" role="document">
-		                            <div class="modal-content">
-		                              <div class="modal-header">
-		                                <h5 class="modal-title" id="editarempresalabel">Cambiar estado del proceso <strong>{{$p->numero_proceso}}</strong></h5>
-		                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-		                                  <span aria-hidden="true">&times;</span>
-		                                </button>
-		                              </div>
-		                              <div class="modal-body">
-		                                
-		                               
-		                                <form  method="POST" action="{{ route('cambiar_estados',$p->id) }}">
-			                                  <div class="form-group">
-			                                      {{ csrf_field() }}
-			                                  </div>  
-		                                 	 <div class="form-group">
-		                                  	  
-			                                   <label for="exampleFormControlTextarea1">Estado actual: <strong class="text-red">{{$p->estado_proceso}}</strong></label>
-			                                   <select id="selEstado" class="form-control" name="estado_proceso">
-			                                   		<option value="0">Selecciona un nuevo estado</option>
-			                                   		<option value='Borrador'>Borrador</option>
-			                                   		<option value="Convocado">Convocado</option>
-			                                   		<option value="Adjudicado">Adjudicado</option>
-			                                   		<option value="Celebrado">Celebrado</option>
-			                                   		<option value="Liquidado">Liquidado</option>
-			                                   		<option value="Descartado">Descartado</option>
-			                                   		<option value="Terminado Anormalmente después de Convocado">Terminado Anormalmente después de Convocado</option>
-			                                   		<option value="Terminado sin Liquidar">Terminado sin Liquidar</option>
-			                                   		
-			                                   </select>
-			                                   
-			                                  </div>
-			                                  <div class="form-group">
-				                                  	<label for="exampleFormControlTextarea1">Gestión comercial proceso: <strong class="text-green">{{$p->gestion_comercial}}</strong></label>
-				                                  	<select id="selGestion" class="form-control" name="gestion_comercial">
-				                                   		<option value="0">Selecciona un nuevo estado</option>
-				                                   		<option value="Encontrado">Encontrado</option>
-				                                   		<option value="No cumplimos">No cumplimos</option>
-				                                   		<option value="Pendiente Propuesta">Pendiente Propuesta</option>
-				                                   		<option value="Propuesta Presentada">Propuesta Presentada</option>
-				                                   		<option value="Adjudicado">Adjudicado</option>
-				                                   		<option value="No Adjudicado">No Adjudicado</option>
-					                                </select>	
-			                                  </div>
-			                                   <button type="submit" class="btn btn-warning">Guardar cambios</button>  
-		                                </form>
-		                                 
-		                                  
-		                              </div>
-		                              <div class="modal-footer">
-		                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Salir</button>
-		                                
-		                              </div>
-		                            </div>
-		                          </div>
-		            </div>               
+		            	@include('partials.cambiarestadoproceso')
+					<!--/MODAL PARA CAMBIAR ESTADOSS-->			                           
 		        @endrole
 		    @endforeach
         </div>
@@ -576,7 +195,7 @@
                 }
                 $('#procesos-table tbody').on( 'click', 'tr', function () {
 			        if ( $(this).hasClass('selected') ) {
-			            $(this).removeClass('selected');
+			            //$(this).removeClass('selected');
 			        }
 			        else {
 			            table.$('tr.selected').removeClass('selected');

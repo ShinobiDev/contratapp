@@ -33,6 +33,8 @@ class User extends Authenticatable
     public function control_procesos_usuario(){
         return $this->hasMany(ControlProceso::class,'id_usuario_asignado');
     }
-    
+    public function detalle_empresa_usuario(){
+        return $this->hasMany(DetalleEmpresaUsuario::class,'id_usuario');
+    }
     
 }
