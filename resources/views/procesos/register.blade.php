@@ -8,21 +8,34 @@
         	
 	         <div class="list-group ">
 			  <a href="#" class="list-group-item active"><h1>Instrucciones <h6>Sigue estos <strong>5 simples pasos</strong> para agregar los procesos correctamente.</h6></h1></a>
-			  <a href="{{asset('archivos/plantilla/Control Procesos Estatales Plantilla.xlsx')}}" class="list-group-item list-group-item-danger"> 1- Descarga la plantilla <small class="text-red">(Dando clic aquí)</small>.</a>
-			  <a href="https://www.contratos.gov.co/consultas/inicioConsulta.do" target="_blank" class="list-group-item"> 2- Ingresa a el sitio web contratos.gov.co <small class="text-success">(Puedes acceder danco clic aquí)</small>.</a>
-			  <a href="#" class="list-group-item list-group-item-danger"> 3- Filtra y copia en el navegador, luego de esto pega en las casillas del archivo no olvides que deben tener el mismo orden y no pueden quedar filas incompletas.</a>
-			  <a href="#" class="list-group-item"> 
+			  <a href="{{asset('archivos/plantilla/Control Procesos Estatales Plantilla.xlsx')}}" class="list-group-item list-group-item-info"> 1- Descarga la plantilla <small class="text-red">(Dando clic aquí)</small>.</a>
+			  <a href="https://www.contratos.gov.co/consultas/inicioConsulta.do" target="_blank" class="list-group-item list-group-item-light"> 2- Ingresa a el sitio web contratos.gov.co <small class="text-success">(Puedes acceder danco clic aquí)</small>.</a>
+			  <a href="#" class="list-group-item list-group-item-info"> 3- Filtra y copia en el navegador, luego de esto pega en las casillas del archivo de excel no olvides que deben tener el mismo orden y no pueden quedar filas incompletas.</a>
+			  
 			  	
 			  	@role('Comerciante')
-			  		4- Selecciona una empresa para asignar los procesos.
+			  		
 			  	@else
+			  		<a href="#" class="list-group-item list-group-item-light"> 
 			  		4- Selecciona una empresa y un usuario para asignar los procesos.
+			  		</a>
 			  	@endrole
 
-			  </a>
-			  <a href="#" class="list-group-item list-group-item-danger"> 5- Arrastra o da clic en el rectangulo para subir tu archivo, esto puedo tardar un poco, recuerda que no se agregaran a la base de datos procesos repetidos.</a>
+			  
+			  	@role('Comerciante')
+			  		 <a href="#" class="list-group-item "> 4- Arrastra o da clic en el rectangulo para subir tu archivo, esto puedo tardar un poco, recuerda que no se agregaran a la base de datos procesos repetidos.</a>
+			  	@else
+			  		<a href="#" class="list-group-item list-group-item-info">
+			  			5- Selecciona una empresa y un usuario para asignar los procesos.
+			  		</a>
+			  	@endrole
+			 
+			  	@role('Comerciante')
+			  		<a href="{{route('consultar_procesos')}}" class="list-group-item  list-group-item-info" > 5- Consulta los procesos <small class="text-info">(Ver procesos)</small>.</a>
+			  	@else
+			  		<a href="{{route('consultar_procesos')}}" class="list-group-item list-group-item-light" > 6- Consulta los procesos <small class="text-info">(Ver procesos)</small>.</a>
+			  	@endrole
 
-			  <a href="{{route('consultar_procesos')}}" class="list-group-item tex" > 6- Consulta los procesos <small class="text-info">(Ver procesos)</small>.</a>
 
 			</div> 
         </div>
@@ -31,7 +44,7 @@
         	<!--SELECCION DE UN USUARIO-->
         	@role('Comerciante')
 
-        		<input type="hidden" id="selUsuario" value="{{$empresas[0]->id}}"/>
+        		<input type="hidden" id="selEmpresa" value="{{$empresas[0]->id}}"/>
 	        		Tu empresa asignada es: <h4 class="text-info"><strong> {{$empresas[0]->nombre_empresa}}<strong></h4>
 	        	
         	@else
