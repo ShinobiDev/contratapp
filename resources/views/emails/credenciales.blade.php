@@ -2,7 +2,7 @@
 
 
 
-![logo](http://metalbit.co/core/img/AzulMetalicoHor.png)
+{{-- ![logo](http://metalbit.co/core/img/AzulMetalicoHor.png) --}}
 
 
 ##Utiliza estas credenciales para acceder a {{config('app.name')}}##

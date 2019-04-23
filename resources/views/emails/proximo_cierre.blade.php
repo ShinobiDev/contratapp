@@ -2,7 +2,7 @@
 
 
 
-![logo](http://metalbit.co/core/img/AzulMetalicoHor.png)
+{{-- ![logo](http://metalbit.co/core/img/AzulMetalicoHor.png) --}}
 
 
 ##El procesos {{$datos->numero_proceso}}, esta próximo a finalizar##
