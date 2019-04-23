@@ -42,7 +42,7 @@ Route::group([
     Route::post('registrar_observacion/{id_proceso}','ProcesosController@registrar_observacion')->name('registrar_observacion');
     Route::post('cambiar_fecha_cierre/{id_proceso}','ProcesosController@cambiar_fecha_cierre')->name('cambiar_fecha_cierre');
     Route::post('cambiar_estados/{id_proceso}','ProcesosController@cambiar_estados')->name('cambiar_estados');
-
+    Route::get('ver_usuario_empresa/{id}','UsuariosController@ver_usuario_empresa')->name('ver_usuario_empresa');
     
     
 

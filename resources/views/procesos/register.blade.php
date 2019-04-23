@@ -119,10 +119,35 @@
 <script type="text/javascript">
 
 	$(document).ready(function() {
-        $('#selEmpresa').select2();
+        
+        @role('Comerciante')
 
-        $('#selUsuario').select2();
+		@else
+			$('#selEmpresa').select2();
+        	$('#selUsuario').select2();
+        	$('#selEmpresa').on("change",function(){
+        		 
+        		 var url="{{config('app.url')}}"+"/admin/ver_usuario_empresa/"+this.value;
+        	
+        		  $.ajax( url )
+				  .done(function(data) {
+				    $.each(data,function(key, registro) {
+				    	document.getElementById("selUsuario").innerHTML="";
+				    	registro.forEach(function(r){
+				    		console.log(r);
+				    		$("#selUsuario").append('<option value='+r.id+'>'+r.name+'</option>');	
+				    	});
+				        
+				      });  
+				  })
+				  .fail(function() {
+				    
+				  });
+				  
+        	});
 
+
+		@endrole
      });
 	var usuario =$('#selUsuario').val();
 	var empresa ="1";

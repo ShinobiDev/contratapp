@@ -177,4 +177,12 @@ class UsuariosController extends Controller
                     ->with('usuario',auth()->user());
                     
     }
+    public function ver_usuario_empresa($id){
+        $dt=DetalleEmpresaUsuario::where('id_empresa',$id)->select('id_usuario')->get();
+        
+        $uu=User::with
+            ('detalle_empresa_usuario')->whereIn('id',$dt)->get();
+
+        return response()->json(['usuarios'=>$uu]);
+    }
 }
