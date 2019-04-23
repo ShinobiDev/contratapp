@@ -118,7 +118,7 @@
         @role('Super-Admin')
             <li class="treeview">
               <a href="#">
-                <i class="fa fa-dashboard"></i> <span>Usuarios</span>
+                <i class="fa fa-user"></i> <span>Usuarios</span>
                 <span class="pull-right-container">
                   <i class="fa fa-angle-left pull-right"></i>
                 </span>
@@ -131,7 +131,7 @@
             
             <li class="treeview">
                 <a href="#">
-                  <i class="fa fa-pie-chart"></i>
+                  <i class="fa fa-building-o"></i>
                   <span>Empresas</span>
                   <span class="pull-right-container">
                     <i class="fa fa-angle-left pull-right"></i>
@@ -145,7 +145,7 @@
             
             <li class="treeview">
                 <a href="#">
-                  <i class="fa fa-pie-chart"></i>
+                  <i class="fa fa-gears"></i>
                   <span>Procesos</span>
                   <span class="pull-right-container">
                     <i class="fa fa-angle-left pull-right"></i>

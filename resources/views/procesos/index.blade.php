@@ -37,7 +37,7 @@
 		                      <td class="text-green text-center">
 		                      	<strong>{{strtoupper($p->numero_proceso)}}</strong>
 
-		                      	<strong><a target="_blank" href="https://www.contratos.gov.co/consultas/detalleProceso.do?{{$p->link_proceso}}"><h4>Ver proceso</h4></a></strong></td>
+		                      	<strong><a target="_blank" href="https://www.contratos.gov.co/consultas/detalleProceso.do?{{$p->link_proceso}}"><h4>Ver proceso  <i class="fa fa-rocket"></i></h4></a></strong></td>
 		                      <td>{{$p->tipo_proceso}}</td>	
 		                      <td><strong class="text-red">{{$p->estado_proceso}}</strong></td>	
 		                      <td><strong class="text-info">{{$p->gestion_comercial}}</strong></td>	
