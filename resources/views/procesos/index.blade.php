@@ -11,7 +11,7 @@
 
 			<table id="procesos-table" class="table table-striped table-codensed table-hover table-resposive">
 		              <thead>
-		                <tr>
+		                <tr class="bg-yellow">
 		                  <th># Proceso</th>
 		                  <th>Tipo</th>
 		                  <th>Estado</th>
@@ -34,23 +34,23 @@
 		                @forelse ($procesos as $p)
 		                
 		                 <tr id="row_{{$p->id}}">      
-		                      <td class="text-green text-center">
+		                      <td class="text-green text-center bg-danger" >
 		                      	<strong>{{strtoupper($p->numero_proceso)}}</strong>
 
 		                      	<strong><a target="_blank" href="https://www.contratos.gov.co/consultas/detalleProceso.do?{{$p->link_proceso}}"><h4>Ver proceso  <i class="fa fa-rocket"></i></h4></a></strong></td>
-		                      <td>{{$p->tipo_proceso}}</td>	
-		                      <td><strong class="text-red">{{$p->estado_proceso}}</strong></td>	
+		                      <td class="text-purple"><strong></strong></td>	
+		                      <td class="bg-success"><strong class="text-red">{{$p->estado_proceso}}</strong></td>	
 		                      <td><strong class="text-info">{{$p->gestion_comercial}}</strong></td>	
-		                      <td><strong>{{$p->entidad}}</strong></td>	
+		                      <td class="bg-info"><strong>{{$p->entidad}}</strong></td>	
 		                      <td>{{$p->objeto}}</td>	
-		                      <td>{{$p->dpto_ciudad}}</td>	
+		                      <td class="bg-warning">{{$p->dpto_ciudad}}</td>	
 		                      <td><strong class="text-green">${{$p->cuantia}}</strong></td>	
-		                      <td>{{$p->fecha_apertura}}</td>	
+		                      <td class="bg-danger">{{$p->fecha_apertura}}</td>	
 		                      <td ><label class="text-info">{{$f = ($p->fecha_cierre != null) ? $p->fecha_cierre : 'Sin asignar'}}</label></td>	
-		                      <td><strong>{{$p->empresa->nombre_empresa}}</strong></td>	
+		                      <td class="bg-success"><strong>{{$p->empresa->nombre_empresa}}</strong></td>	
 		                      <td>{{$p->usuario->name}}</td>	
 		                      
-		                      <td>
+		                      <td class="bg-info">
 		                        <!-- Button trigger modal -->
 		                        @role('Comerciante')
 		                        	<button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#registrarproceso{{$p->id}}">
@@ -86,8 +86,8 @@
 		                    </td>
 		                   </tr>
 		                @empty
-		                    <tr >      
-		                      <td class="text-green text-center"><strong><h4>Aún no existen procesos registrados o asignados a este usuario</h4></strong></td>
+		                    <tr class="bg-yellow">      
+		                      <td class="text-green text-center bg-red"><strong><h4>Aún no existen procesos registrados o asignados a este usuario</h4></strong></td>
 		                      <td>
 		                      <td></td>	
 		                      <td></td>	
