@@ -18,7 +18,7 @@ class CreateObservacionProcesosTable extends Migration
             $table->string("observacion",1024);
             $table->integer("id_usuario_observacion")->unsigned();
             $table->integer("id_control_proceso")->unsigned();
-            $table->enum("tipo_observación",['manual','auto']);
+            $table->enum("tipo_observacion",['manual','auto']);
             $table->timestamps();
         });
     }

@@ -23,7 +23,9 @@ class ControlProceso extends Model
 
 
     public static function obtener_datos_archivo($archivo){
-    	$inputFileName = realpath('../public/archivos/'.$archivo);
+        $ruta=explode("/",config('app.url'))[count(explode("/",config('app.url')))-1];
+        
+    	$inputFileName = realpath('../'.$ruta.'/archivos/'.$archivo);
 
         /** Load $inputFileName to a Spreadsheet Object  **/
         $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($inputFileName);

@@ -79,6 +79,7 @@ class UsuariosController extends Controller
         if($data['rol']=="selecciona un rol"){
             return back()->with("error",'Debes seleccionar un rol');
         }
+
         /*if($data['empresa']=='selecciona una empresa' && $data['rol']!='1'){
             return back()->with("error",'Debes seleccionar una empresa');
         }*/
@@ -90,11 +91,23 @@ class UsuariosController extends Controller
         $u->password=bcrypt($data['password']);
         $u->save();
         $u->assignRole(Role::where('id',$data['rol'])->first());
+        if($data['rol']=='1'){
+            $empresa=Empresa::all();
+            foreach ($empresa as $key => $value) {
+                $due= new DetalleEmpresaUsuario;
+                $due->id_empresa=$value->id;
+                $due->id_usuario=$u->id;
+                $due->save();
+            }
+                   
 
-        $due= new DetalleEmpresaUsuario;
-        $due->id_empresa=$data['empresa'];
-        $due->id_usuario=$u->id;
-        $due->save();       
+        }else{
+            $due= new DetalleEmpresaUsuario;
+            $due->id_empresa=$data['empresa'];
+            $due->id_usuario=$u->id;
+            $due->save();       
+        }
+        
         Event::dispatch($u, $data['password'],"UsuarioCreado");
 
         return back()->with("success",'Hemos creado el usuario exitosamente.');
