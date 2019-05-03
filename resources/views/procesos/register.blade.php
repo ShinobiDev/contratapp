@@ -7,34 +7,37 @@
     	<div class="col-10 col-md-10 col-sm-10 col-md-offset-1 col-offset-1 responsive" >
         	
 	         <div class="list-group ">
-			  <a href="#" class="list-group-item active"><h1 class="text-red">Instrucciones <h6>Sigue estos <strong>5 simples pasos</strong> para agregar los procesos correctamente.</h6></h1></a>
-			  <a href="{{asset('archivos/plantilla/Control Procesos Estatales Plantilla.xlsx')}}" class="list-group-item list-group-item-success"> 1- Descarga la plantilla <small class="text-primary">(Dando clic aquí)</small>.</a>
-			  <a href="https://www.contratos.gov.co/consultas/inicioConsulta.do" target="_blank" class="list-group-item list-group-item-danger"> 2- Ingresa a el sitio web contratos.gov.co <small class="text-primary">(Puedes acceder danco clic aquí)</small>.</a>
-			  <a href="#" class="list-group-item list-group-item-success"> 3- Filtra y copia en el navegador, luego de esto pega en las casillas del archivo de excel no olvides que deben tener el mismo orden y no pueden quedar filas incompletas.</a>
+			  <a href="#" class="list-group-item active"><h2 class="text-red"><b>Instrucciones</b> <h4><b>Sigue estos</b> <strong class="text-orange"><b >5 simples pasos</strong> para agregar los procesos correctamente.</b></h4></h2></a>
+			  
+			  <a href="{{asset('archivos/plantilla/Control Procesos Estatales Plantilla.xlsx')}}" class="list-group-item list-group-item-success"> <span class="text-red">1-</span> Descarga la plantilla <small class="text-red">(Dando clic aquí)</small>.</a>
+			  
+			  <a href="https://www.contratos.gov.co/consultas/inicioConsulta.do" target="_blank" class="list-group-item list-group-item-info"> <span class="text-red">2-</span> Ingresa a el sitio web contratos.gov.co <small class="text-red">(Puedes acceder danco clic aquí)</small>.</a>
+
+			  <a href="#" class="list-group-item list-group-item-success"> <span class="text-red">3-</span> Filtra y copia en el navegador, luego de esto pega en las casillas del archivo de excel no olvides que deben tener el mismo orden y no pueden quedar filas incompletas.</a>
 			  
 			  	
 			  	@role('Comerciante')
 			  		
 			  	@else
-			  		<a href="#" class="list-group-item list-group-item-danger"> 
-			  		4- Selecciona una empresa y un usuario para asignar los procesos.
+			  		<a href="#" class="list-group-item list-group-item-info"> 
+			  		<span class="text-red">4-</span> Selecciona una empresa y un usuario para asignar los procesos.
 			  		</a>
 			  	@endrole
 
 			  
 			  	@role('Comerciante')
-			  		 <a href="#" class="list-group-item list-group-item-danger"> 4- Arrastra o da clic en el rectangulo para subir tu archivo, esto puedo tardar un poco, recuerda que no se agregaran a la base de datos procesos repetidos.</a>
+			  		 <a href="#" class="list-group-item list-group-item-info"> <span class="text-red">4-</span> Arrastra o da clic en el rectangulo para subir tu archivo, esto puedo tardar un poco, recuerda que no se agregaran a la base de datos procesos repetidos.</a>
 			  	@else
 			  		
 			  		
-			  		<a href="#" class="list-group-item list-group-item-success"> 5- Arrastra o da clic en el rectangulo para subir tu archivo, esto puedo tardar un poco, recuerda que no se agregaran a la base de datos procesos repetidos.</a>
+			  		<a href="#" class="list-group-item list-group-item-success"> <span class="text-red">5-</span> Arrastra o da clic en el rectangulo para subir tu archivo, esto puedo tardar un poco, recuerda que no se agregaran a la base de datos procesos repetidos.</a>
 			  		
 			  	@endrole
 			 
 			  	@role('Comerciante')
-			  		<a href="{{route('consultar_procesos')}}" class="list-group-item  list-group-item-success" > 5- Consulta los procesos <small class="text-primary">(Ver procesos)</small>.</a>
+			  		<a href="{{route('consultar_procesos')}}" class="list-group-item  list-group-item-success" > <span class="text-red">5-</span> Consulta los procesos <small class="text-red">(Ver procesos)</small>.</a>
 			  	@else
-			  		<a href="{{route('consultar_procesos')}}" class="list-group-item list-group-item-danger" > 6- Consulta los procesos <small class="text-primary">(Ver procesos)</small>.</a>
+			  		<a href="{{route('consultar_procesos')}}" class="list-group-item list-group-item-info" > <span class="text-red">6-</span> Consulta los procesos <small class="text-red">(Ver procesos)</small>.</a>
 			  	@endrole
 
 
@@ -46,7 +49,7 @@
         	@role('Comerciante')
 
         		<input type="hidden" id="selEmpresa" value="{{$empresas[0]->id}}"/>
-	        		Tu empresa asignada es: <h4 class="text-danger"><strong> {{$empresas[0]->nombre_empresa}}<strong></h4>
+	        		Tu empresa asignada es: <h4 class="text-info"><strong> {{$empresas[0]->nombre_empresa}}<strong></h4>
 	        	
         	@else
         		@role('Super-Admin')

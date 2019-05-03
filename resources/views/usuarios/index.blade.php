@@ -4,16 +4,17 @@
 @endsection
 
 @section('content')
-<div class="container">
-    <div class="row">
-        <div class="col-md-10 col-md-offset-1">
-        
-            
-        
+<div class="container-fluid">
+  <div class="box box-primary">
+    <div class="box-header">
+      <b><a href="{{route('register')}}" class="btn btn-success pull-right"><i class="fa fa-plus-circle" aria-hidden="true"></i>
+      Crear usuario</a></b>
 
-          <table id="usuarios-table" class="table table-striped table-codensed table-hover table-resposive">
+    </div>
+    <div class="box-body">
+      <table id="usuarios-table" class="table table-striped table-codensed table-hover table-resposive">
               <thead>
-                <tr>
+                <tr class="bg-yellow">
                   <th class="text-center">Nombre</th>
                   <th>rol</th>
                   <th>estado</th>
@@ -27,17 +28,17 @@
                 @forelse ($usuarios as $u)
 
                    <tr id="row_{{$u->id}}">      
-                      <td class="text-green text-center"><strong><h4>{{strtoupper($u->name)}}</h4></strong></td>
-                      <td ><strong><h4>{{$u->getRoleNames()[0]}}</h4></strong></td>
-                      <td >{{$estado = ($u->estado == 1) ? "Activo" : "Deshabilitado"}}</td>
+                      <td class="text-green text-center bg-success"><strong><h4>{{strtoupper($u->name)}}</h4></strong></td>
+                      <td ><strong><h4 class="text-red">{{$u->getRoleNames()[0]}}</h4></strong></td>
+                      <td class="text-primary bg-info">{{$estado = ($u->estado == 1) ? "Activo" : "Deshabilitado"}}</td>
                       <td>
                         <!-- Button trigger modal -->
                         <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#editarusuario{{$u->id}}">
-                          Editar usuario
+                          <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                         </button>
                         @if($u->estado)
                           <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#eliminarusuario{{$u->id}}">
-                          Deshabilitar usuario
+                          <i class="fa fa-trash-o" aria-hidden="true"></i>
                         </button>
                         @endif
                         
@@ -60,7 +61,7 @@
               </tbody>
               
           </table>
-          <a href="{{route('register')}}" class="btn btn-success">Crear usuario</a>
+          
           <!-- Modal -->
           @foreach($usuarios as $u)
             <!--MODALPARA EDITAR USUARIO-->
@@ -146,8 +147,9 @@
                           </div>
                         </div>
           @endforeach
-        </div>
     </div>
+  </div>
+    
 </div>
 @endsection
 @section('scripts')

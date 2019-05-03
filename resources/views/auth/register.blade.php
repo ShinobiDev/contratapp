@@ -6,9 +6,9 @@
 @section('content')
 <div class="container">
     <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
-                <div class="panel-heading">Registro de usuarios</div>
+        <div class="col-md-8 col-md-offset-1">
+            <div class="panel panel-primary">
+                <div class="panel-heading ">Registro de usuarios</div>
 
                 <div class="panel-body">
                     <form class="form-horizontal" method="POST" action="{{ route('register') }}">
@@ -99,7 +99,7 @@
                         </div>
                         <div class="form-group">
                             <div class=" text-center">
-                                <span class="text-info">Las credenciales de accesos seran enviadas a el correo electrónico registrado</span>    
+                                <span class="text-success">Las credenciales de accesos seran enviadas a el correo electrónico registrado</span>    
                             </div>
                             
                         </div>    
@@ -127,7 +127,7 @@
 
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
-                                <button type="submit" class="btn btn-primary">
+                                <button type="submit" class="btn btn-danger">
                                     Registrar usuario
                                 </button>
                             </div>

@@ -37,7 +37,7 @@
   <!-- Google Font -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 
-   @yield('head')
+   @yield('header')
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
@@ -227,7 +227,9 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        {{config('app.name')}}
+        <b class="text-red">
+          {{config('app.name')}}
+        </b>
         @include('partials.error')
         @include('partials.success')
       </h1>

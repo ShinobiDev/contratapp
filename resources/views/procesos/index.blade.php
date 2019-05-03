@@ -1,15 +1,19 @@
 @extends('layouts.app')
 
 @section('header')
+<link rel="stylesheet" href="{{asset('css/estilo.css')}}">
+
+
 @endsection
 
 @section('content')
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-12 col-md-12 col-sm-12">
-
-
-			<table id="procesos-table" class="table table-striped table-codensed table-hover table-resposive">
+<div >
+	<div  class="box box-success">
+		<div class="box-header ">
+        <a href="{{route('registrar_procesos')}}" class="btn btn-primary pull-right"><strong><i class="fa fa-plus-circle" aria-hidden="true"></i> Crear procesos</strong></a>  
+      </div>
+		<div class="box-body panel-horizontal	">
+			<table id="procesos-table" class="table table-striped table-codensed table-hover ">
 		              <thead>
 		                <tr class="bg-yellow">
 		                  <th># Proceso</th>
@@ -20,6 +24,7 @@
 		                  <th>Objeto</th>
 		                  <th>Dpto. y Ciudad</th>
 		                  <th>Cuantía</th>
+		                  <th>Fecha de registro</th>
 		                  <th>Fecha apertura</th>
 		                  <th>Fecha cierre</th>
 		                  <th>Empresa</th>
@@ -38,47 +43,53 @@
 		                      	<strong>{{strtoupper($p->numero_proceso)}}</strong>
 
 		                      	<strong><a target="_blank" href="https://www.contratos.gov.co/consultas/detalleProceso.do?{{$p->link_proceso}}"><h4>Ver proceso  <i class="fa fa-rocket"></i></h4></a></strong></td>
-		                      <td class="text-purple"><strong></strong></td>	
+		                      <td class="text-purple"><strong class="text-purple">{{$p->tipo_proceso}}</strong></td>	
 		                      <td class="bg-success"><strong class="text-red">{{$p->estado_proceso}}</strong></td>	
 		                      <td><strong class="text-info">{{$p->gestion_comercial}}</strong></td>	
 		                      <td class="bg-info"><strong>{{$p->entidad}}</strong></td>	
 		                      <td>{{$p->objeto}}</td>	
 		                      <td class="bg-warning">{{$p->dpto_ciudad}}</td>	
 		                      <td><strong class="text-green">${{$p->cuantia}}</strong></td>	
-		                      <td class="bg-danger">{{$p->fecha_apertura}}</td>	
-		                      <td ><label class="text-info">{{$f = ($p->fecha_cierre != null) ? $p->fecha_cierre : 'Sin asignar'}}</label></td>	
-		                      <td class="bg-success"><strong>{{$p->empresa->nombre_empresa}}</strong></td>	
+		                      <td class="bg-danger">{{$p->created_at}}</td>	
+		                      <td >{{$p->fecha_apertura}}</td>	
+		                      <td class="bg-success"><label class="text-info">{{$f = ($p->fecha_cierre != null) ? $p->fecha_cierre : 'Sin asignar'}}</label></td>	
+		                      <td ><strong class="text-red">{{$p->empresa->nombre_empresa}}</strong></td>	
 		                      <td>{{$p->usuario->name}}</td>	
 		                      
 		                      <td class="bg-info">
 		                        <!-- Button trigger modal -->
 		                        @role('Comerciante')
 		                        	<button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#registrarproceso{{$p->id}}">
-		                          		Registrar Observación
+		                          		<b><i class="fa fa-pencil-square" aria-hidden="true"></i>Registrar Observación</b>
 		                        	</button>
 
 		                        	<button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#fechacierreproceso{{$p->id}}">
-		                          		{{$variable = $p->fecha_cierre != '' ? 'Cambiar fecha cierre proceso' : 'Asignar fecha cierre proceso'}}
+		                        		<b><i class="fa fa-clock-o" aria-hidden="true"></i> 
+		                          		{{$variable = $p->fecha_cierre != '' ? 'Cambiar fecha cierre proceso' : 'Asignar fecha cierre proceso'}}</b>
 		                        	</button>
 		                        	<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#verobservacionesproceso{{$p->id}}">
-		                          		Ver observaciones 
+		                          		<b><i class="fa fa-sticky-note" aria-hidden="true"></i> Ver observaciones </b>
 		                        	</button>
 		                        	<button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#cambiarestadoproceso{{$p->id}}">
-		                          		Cambiar estado
+		                          		<b><i class="fa fa-refresh" aria-hidden="true"></i> Cambiar estado</b>
 		                        	</button>
 
 		                        @else
+			                        <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#registrarproceso{{$p->id}}">
+			                          		<b><i class="fa fa-pencil-square" aria-hidden="true"></i>Registrar Observación</b>
+			                        </button>
 		                        	<button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#editarproceso{{$p->id}}">
-		                          		Cambiar usuario
+		                          		<b><i class="fa fa-user-plus" aria-hidden="true"></i> Cambiar usuario</b>
 		                        	</button>
 		                        	<button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#fechacierreproceso{{$p->id}}">
-		                          		{{$variable = $p->fecha_cierre != '' ? 'Cambiar fecha cierre proceso' : 'Asignar fecha cierre proceso'}}
+		                        		<b><i class="fa fa-clock-o" aria-hidden="true"></i> 
+		                          		{{$variable = $p->fecha_cierre != '' ? 'Cambiar fecha cierre proceso' : 'Asignar fecha cierre proceso'}}</b>
 		                        	</button>
 		                        	<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#verobservacionesproceso{{$p->id}}">
-		                          		Ver observaciones
+		                          		<b><i class="fa fa-sticky-note" aria-hidden="true"></i> Ver observaciones</b>
 		                        	</button>
 		                        	<button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#cambiarestadoproceso{{$p->id}}">
-		                          		Cambiar estado
+		                          		<b><i class="fa fa-refresh" aria-hidden="true"></i> Cambiar estado</b>
 		                        	</button>
 		                        @endrole
 		                        <!-- Modal -->
@@ -144,11 +155,14 @@
 		            <!--MODAL PARA VER OBSERVACIONES DE PROCESOS-->
 		            <!--MODAL PARA CAMBIAR ESTADOSS-->
 		            	@include('partials.cambiarestadoproceso')
-					<!--/MODAL PARA CAMBIAR ESTADOSS-->			                           
+					<!--/MODAL PARA CAMBIAR ESTADOSS-->		
+					<!--MODAL PARA REGISTRAR UNA OBSERVACION-->
+						@include('partials.registrarproceso')
+					<!--/MODAL PARA REGISTRAR UNA OBSERVACION-->	                           
 		        @endrole
 		    @endforeach
-        </div>
-    </div>
+		</div>	
+   	</div>
 </div>        	
 @endsection
 
@@ -163,6 +177,7 @@
                     stateSave: true,
                     dom: 'Bfrtip',
                     buttons: ['copy', 'csv', 'excel', 'pdf', 'print'],
+                    "lengthMenu": [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
                     language:
                       {
                         "sProcessing":     "Procesando...",
