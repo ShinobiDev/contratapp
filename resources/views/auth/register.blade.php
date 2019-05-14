@@ -46,7 +46,7 @@
 
                             <div class="col-md-6">
                                 
-                                <select class="form-control"  name="rol" id="selRoles" onchange="validar_rol(this);" value="old('rol')" required>
+                                <select class="form-control"  name="rol" id="selRoles" onchange="validar_rol(this);" value="{{old('rol')}}" required>
                                      <option>selecciona un rol</option>   
                                           
                                           @role('Admin')
@@ -81,7 +81,7 @@
 
                             <div class="col-md-6">
                                 
-                                <select class="form-control"  name="empresa" id="selEmpresas" value="old('empresa')" required>
+                                <select class="form-control"  name="empresa" id="selEmpresas" value="{{old('empresa')}}" required>
                                     <option>selecciona una empresa</option>   
                                   @forelse ($empresas as $e)
                                     <option value="{{$e->id}}">{{$e->nombre_empresa}}</option>

@@ -14,10 +14,11 @@
     <div class="box-body">
       <table id="usuarios-table" class="table table-striped table-codensed table-hover table-resposive">
               <thead>
-                <tr class="bg-yellow">
+                <tr class="bg-green">
                   <th class="text-center">Nombre</th>
                   <th>rol</th>
                   <th>estado</th>
+                  <th>empresa</th>
                   <th>Acciones</th>
 
                 </tr>
@@ -28,9 +29,14 @@
                 @forelse ($usuarios as $u)
 
                    <tr id="row_{{$u->id}}">      
-                      <td class="text-green text-center bg-success"><strong><h4>{{strtoupper($u->name)}}</h4></strong></td>
+                      <td class="text-green text-center"><strong><h4>{{strtoupper($u->name)}}</h4></strong></td>
                       <td ><strong><h4 class="text-red">{{$u->getRoleNames()[0]}}</h4></strong></td>
-                      <td class="text-primary bg-info">{{$estado = ($u->estado == 1) ? "Activo" : "Deshabilitado"}}</td>
+                      <td class="text-primary ">{{$estado = ($u->estado == 1) ? "Activo" : "Deshabilitado"}}</td>
+                      <td>
+                        @foreach($u->detalle_empresa_usuario as $e)
+                          {{$e->empresa->nombre_empresa}}
+                        @endforeach
+                      </td>
                       <td>
                         <!-- Button trigger modal -->
                         <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#editarusuario{{$u->id}}">
@@ -46,6 +52,7 @@
                         
                         
                     </td>
+
                    </tr>
                 @empty
                     <tr >      
@@ -91,22 +98,30 @@
                                     <input type="text" name="email" class="form-control"   placeholder="Ingresa el nuevo correo del usuario" value="{{$u->email}}" required>
                                     
                                   </div>
-                                  <div class="form-group">
+                                  
+                                    <div class="form-group">
+                                      
                                        <select class="form-control"  name="rol" id="selRolesEdi" onchange="validar_rol(this);" required>
                                              <option>selecciona un rol</option>   
                                           @forelse ($roles as $r)
 
-                                            @if($u->getRoleNames()[0]==$r->name)
-                                              <option value="{{$r->id}}" selected>{{$r->name}}</option>
+                                            @if($u->getRoleNames()[0] == "Super-Admin")
+
+                                                 <option value="{{$r->id}}" selected>Super-Admin</option>
+                                                 @break
                                             @else
-                                              <option value="{{$r->id}}">{{$r->name}}</option>
-                                            @endif
-                                            
+                                                @if($u->getRoleNames()[0]==$r->name)
+                                                  <option value="{{$r->id}}" selected>{{$r->name}}</option>
+                                                @else
+                                                  <option value="{{$r->id}}">{{$r->name}}</option>
+                                                @endif
+                                             @endif 
                                           @empty
                                             <option>No hay roles</option>
                                           @endforelse
                                         </select>
                                   </div>
+                                  
                                    <button type="submit" class="btn btn-primary">Guardar cambios</button>   
                                 </form>
                               </div>

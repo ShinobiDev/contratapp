@@ -29,8 +29,12 @@ class UsuariosController extends Controller
                 break;
             case 'Admin':
                 //pendientes relaciones 
+                
                 $r=Role::where('name','!=','Super-Admin')->get();
-                $u=User::all();
+                $u=User::join('detalle_empresa_usuarios','detalle_empresa_usuarios.id_usuario','users.id')
+                         ->join('empresas','empresas.id','detalle_empresa_usuarios.id_empresa')
+                         ->where('empresas.id',auth()->user()->detalle_empresa_usuario[0]->id_empresa)
+                         ->get();
                 break;    
             
             default:
@@ -80,9 +84,9 @@ class UsuariosController extends Controller
             return back()->with("error",'Debes seleccionar un rol');
         }
 
-        /*if($data['empresa']=='selecciona una empresa' && $data['rol']!='1'){
+        if($data['empresa']=='selecciona una empresa' && $data['rol']!='1'){
             return back()->with("error",'Debes seleccionar una empresa');
-        }*/
+        }
         $data['password']=str_random(8);
         
         $u = new User;

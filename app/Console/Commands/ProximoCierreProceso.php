@@ -47,8 +47,9 @@ class ProximoCierreProceso extends Command
         //dump($tresdiasdespues,$procesos);
         $uadmin=User::role('Admin')->get();
         $suadmin=User::role('Super-Admin')->get();
+
         //FAKLTA ENVIAR MAIL AL EMPLEADO
-        //dd($uadmin);
+        //dump($suadmin);
         foreach ($procesos as $key => $value) {
                 foreach($uadmin as $u){
                     Event::dispatch($u, $value,"ProximoCierre");
@@ -56,6 +57,9 @@ class ProximoCierreProceso extends Command
                 foreach($suadmin as $u){
                     Event::dispatch($u, $value,"ProximoCierre");
                 }
+                $comercial=User::where('id',$value->id_usuario_asignado)->first();
+                Event::dispatch($comercial, $value,"ProximoCierre");
+
                 
         }
     }

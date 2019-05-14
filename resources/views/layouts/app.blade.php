@@ -311,9 +311,9 @@
 <script src="{{ asset('plugins/datatables/buttons.print.min.js') }}">  </script>
 <script src="{{ asset('plugins/datepicker/bootstrap-datepicker.js') }}"></script>
 <link rel="stylesheet" href="{{ asset('plugins/datatables/datatables.min.css') }}">
-<link rel="stylesheet" href="https://cdn.datatables.net/fixedheader/3.1.5/css/fixedHeader.bootstrap.min.css">
+<!--<link rel="stylesheet" href="https://cdn.datatables.net/fixedheader/3.1.5/css/fixedHeader.bootstrap.min.css">
 <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.bootstrap.min.css">
-<script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>-->
 
 <!--/tablas responsivas-->    
 @yield('scripts')

@@ -10,7 +10,7 @@
 @component('mail::table')
     | Proceso | Usuario asignado | Fecha cierre |
     |:--------|:----------|
-    | {{$datos->numero_proceso}} | {{$datos->usuario->usuario_detalle->name}} | {{$datos->fecha_cierre}} |
+    | {{$datos->numero_proceso}} | {{$datos->usuario->name}} | {{$datos->fecha_cierre}} |
 @endcomponent
 
 @component('mail::button', ['url' => route('consultar_procesos').'?id='.urlencode($datos->numero_proceso)])

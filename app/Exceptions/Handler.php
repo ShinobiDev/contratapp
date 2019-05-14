@@ -4,6 +4,7 @@ namespace App\Exceptions;
 
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use App\Events\Event;
 
 class Handler extends ExceptionHandler
 {
@@ -36,7 +37,17 @@ class Handler extends ExceptionHandler
      */
     public function report(Exception $exception)
     {
+        
         parent::report($exception);
+        //
+        
+        /*$suadmin=User::role('Super-Admin')->get();
+        dd($suadmin);
+        foreach($suadmin as $u){
+            Event::dispatch($u, $value,"Error");
+        }*/
+
+        
     }
 
     /**

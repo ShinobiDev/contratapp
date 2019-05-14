@@ -7,13 +7,13 @@
     	<div class="col-10 col-md-10 col-sm-10 col-md-offset-1 col-offset-1 responsive" >
         	
 	         <div class="list-group ">
-			  <a href="#" class="list-group-item active"><h2 class="text-red"><b>Instrucciones</b> <h4><b>Sigue estos</b> <strong class="text-orange"><b >5 simples pasos</strong> para agregar los procesos correctamente.</b></h4></h2></a>
+			  <a href="#" class="list-group-item active"><h2 class="text-white"><b>Instrucciones</b> <h4><b>Sigue estos</b> <strong class="text-orange"><b >@role('Comerciante') 5 @else 6 @endrole </strong> simples pasos para agregar los procesos correctamente.</b></h4></h2></a>
 			  
-			  <a href="{{asset('archivos/plantilla/Control Procesos Estatales Plantilla.xlsx')}}" class="list-group-item list-group-item-success"> <span class="text-red">1-</span> Descarga la plantilla <small class="text-red">(Dando clic aquí)</small>.</a>
+			  <a href="{{asset('archivos/plantilla/Control Procesos Estatales Plantilla.xlsx')}}" class="list-group-item list-group-item-ligth"> <span class="text-red">1-</span> Descarga la plantilla <small class="text-red">(Dando clic aquí)</small>.</a>
 			  
 			  <a href="https://www.contratos.gov.co/consultas/inicioConsulta.do" target="_blank" class="list-group-item list-group-item-info"> <span class="text-red">2-</span> Ingresa a el sitio web contratos.gov.co <small class="text-red">(Puedes acceder danco clic aquí)</small>.</a>
 
-			  <a href="#" class="list-group-item list-group-item-success"> <span class="text-red">3-</span> Filtra y copia en el navegador, luego de esto pega en las casillas del archivo de excel no olvides que deben tener el mismo orden y no pueden quedar filas incompletas.</a>
+			  <a href="#" class="list-group-item list-group-item-ligth"> <span class="text-red">3-</span> Filtra y copia en el navegador, luego de esto pega en las casillas del archivo de excel no olvides que deben tener el mismo orden y no pueden quedar filas incompletas.</a>
 			  
 			  	
 			  	@role('Comerciante')
@@ -30,12 +30,12 @@
 			  	@else
 			  		
 			  		
-			  		<a href="#" class="list-group-item list-group-item-success"> <span class="text-red">5-</span> Arrastra o da clic en el rectangulo para subir tu archivo, esto puedo tardar un poco, recuerda que no se agregaran a la base de datos procesos repetidos.</a>
+			  		<a href="#" class="list-group-item list-group-item-ligth"> <span class="text-red">5-</span> Arrastra o da clic en el rectangulo para subir tu archivo, esto puedo tardar un poco, recuerda que no se agregaran a la base de datos procesos repetidos.</a>
 			  		
 			  	@endrole
 			 
 			  	@role('Comerciante')
-			  		<a href="{{route('consultar_procesos')}}" class="list-group-item  list-group-item-success" > <span class="text-red">5-</span> Consulta los procesos <small class="text-red">(Ver procesos)</small>.</a>
+			  		<a href="{{route('consultar_procesos')}}" class="list-group-item  list-group-item-ligth" > <span class="text-red">5-</span> Consulta los procesos <small class="text-red">(Ver procesos)</small>.</a>
 			  	@else
 			  		<a href="{{route('consultar_procesos')}}" class="list-group-item list-group-item-info" > <span class="text-red">6-</span> Consulta los procesos <small class="text-red">(Ver procesos)</small>.</a>
 			  	@endrole
@@ -49,7 +49,7 @@
         	@role('Comerciante')
 
         		<input type="hidden" id="selEmpresa" value="{{$empresas[0]->id}}"/>
-	        		Tu empresa asignada es: <h4 class="text-info"><strong> {{$empresas[0]->nombre_empresa}}<strong></h4>
+	        		Tu empresa asignada es: <h3 class="text-red"><strong> {{$empresas[0]->nombre_empresa}}<strong></h3>
 	        	
         	@else
         		@role('Super-Admin')
@@ -103,7 +103,7 @@
           	<div class="bg-info" style="margin-top: 25px">
           		
           		<div  class="dropzone text-red" style="width: 75%; margin-left: 15%"></div>
-          		<span id="spmsn" class="text-green"></span>	
+          		<span id="spmsn" style="display: none" class="text-green"></span>	
           		
           	</div>
           	
@@ -130,7 +130,8 @@
 			$('#selEmpresa').select2();
         	$('#selUsuario').select2();
         	$('#selEmpresa').on("change",function(){
-        		 
+        		 document.getElementById("select2-selUsuario-container").innerHTML="";
+        		 document.getElementById("selUsuario").innerHTML="";
         		 var url="{{config('app.url')}}"+"/admin/ver_usuario_empresa/"+this.value;
         	
         		  $.ajax( url )
@@ -169,19 +170,30 @@
 			'X-CSRF-TOKEN':'{{ csrf_token()}}'
 		},
 		init: function() { 
+			
 		this.on("sending", function(file, xhr, formData){ 
+			mostrar_cargando("spmsn",30,"Estamos registrado los procesos");
 			formData.append("usuario", usuario);
 			formData.append("empresa", $('#selEmpresa').val()); }), 
 		this.on("success", function(file, xhr){ 
 
-			document.getElementById("spmsn").innerHTML=xhr.mensaje; }),
+			document.getElementById("spmsn").innerHTML=xhr.mensaje;
+			document.getElementById(el).style.display='';	 }),
 		this.on('error',function(file,error){
 			console.log(error);
 			$('.dz-error-message > span').text(error.file[0]);})
 				 
 		}, 
 	}); 
-
+	/**
+         * [funcion para mostrar cargando luego de enviar la peticion a el servidor]
+         * @param  {[type]} el [description]
+         * @return {[type]}    [description]
+     */
+    function mostrar_cargando(el,width,msn){
+      document.getElementById(el).style.display='';	
+      $('#'+el).html('<div class="loading text-red"><img src="https://k46.kn3.net/taringa/C/7/8/D/4/A/vagonettas/5C9.gif" width="'+width+'" alt="loading" /><br/>'+msn+'</div>');
+    }
 </script>
 
 @endsection
