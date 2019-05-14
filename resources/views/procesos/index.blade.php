@@ -105,8 +105,8 @@
 		                    </td>
 		                   </tr>
 		                @empty
-		                    <tr class="bg-blue">      
-		                      <td class="text-green text-center bg-red"><strong><h4>Aún no existen procesos registrados o asignados a este usuario</h4></strong></td>
+		                    <tr >      
+		                      <td class="text-center"><strong><h4>Aún no existen procesos registrados o asignados a este usuario</h4></strong></td>
 		                      <td>
 		                      <td></td>	
 		                      <td></td>	
