@@ -15,11 +15,11 @@ class CreateControlProcesosTable extends Migration
     {
         Schema::create('control_procesos', function (Blueprint $table) {
             $table->increments('id');
-            $table->string("numero_proceso");
+            $table->string("numero_proceso",512);
             $table->string("link_proceso",512);
-            $table->string("entidad");
+            $table->string("entidad",512);
             $table->string("objeto",2048);
-            $table->string("dpto_ciudad");
+            $table->string("dpto_ciudad",512);
             $table->string("cuantia");
             $table->date("fecha_apertura");  
             $table->integer("id_usuario_asignado")->unsigned();

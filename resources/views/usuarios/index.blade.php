@@ -70,7 +70,7 @@
           </table>
           
           <!-- Modal -->
-          @foreach($usuarios as $u)
+          @forelse($usuarios as $u)
             <!--MODALPARA EDITAR USUARIO-->
             <div class="modal fade" id="editarusuario{{$u->id}}" tabindex="-1" role="dialog" aria-labelledby="editarusuariolabel" aria-hidden="true">
                           <div class="modal-dialog" role="document">
@@ -161,7 +161,8 @@
                             </div>
                           </div>
                         </div>
-          @endforeach
+          @empty
+          @endforelse
     </div>
   </div>
     

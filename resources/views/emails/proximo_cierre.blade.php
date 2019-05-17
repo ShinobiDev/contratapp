@@ -13,7 +13,7 @@
     | {{$datos->numero_proceso}} | {{$datos->usuario->name}} | {{$datos->fecha_cierre}} |
 @endcomponent
 
-@component('mail::button', ['url' => route('consultar_procesos').'?id='.urlencode($datos->numero_proceso)])
+@component('mail::button', ['url' => route('consultar_procesos').'?id='.trim($datos->numero_proceso)])
 ver proceso
 @endcomponent
 

@@ -53,12 +53,15 @@ class ProximoCierreProceso extends Command
         foreach ($procesos as $key => $value) {
                 foreach($uadmin as $u){
                     Event::dispatch($u, $value,"ProximoCierre");
+                    sleep(10);
                 }
                 foreach($suadmin as $u){
                     Event::dispatch($u, $value,"ProximoCierre");
+                    sleep(10);
                 }
                 $comercial=User::where('id',$value->id_usuario_asignado)->first();
                 Event::dispatch($comercial, $value,"ProximoCierre");
+                sleep(10);
 
                 
         }

@@ -157,56 +157,61 @@ class ProcesosController extends Controller
     }
     public function subir_archivos_procesos(Request $request){
         
-        $this->validate(request(),[
-            //'file'=>'required|max:10240|mimetypes:application/csv,application/excel,application/vnd.ms-excel,application/vnd.msexcel,text/csv, text/anytext, text/plain, text/x-c,text/comma-separated-values,inode/x-empty,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-        ]);
+        try{
+            $this->validate(request(),[
+                //'file'=>'required|max:10240|mimetypes:application/csv,application/excel,application/vnd.ms-excel,application/vnd.msexcel,text/csv, text/anytext, text/plain, text/x-c,text/comma-separated-values,inode/x-empty,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+            ]);
 
-        $url=$request->file('file');
+            $url=$request->file('file');
 
-        
-        $filename = $request->file('file')->move('archivos/');
-
-        $newname="/archivoexcel.".explode(".",$_FILES['file']['name'])[1];
-
-        rename($filename,realpath(dirname($filename)).$newname);
-        $datos=ControlProceso::obtener_datos_archivo($newname);
-       
-        $i=0;
-        $rep=0;
-        foreach($datos as $d ){
-            //dump($d);
-            $fecha=array_reverse(explode("-",explode("\n",$d[9])[1]));
             
-            $fecha=ControlProceso::validar_fecha($fecha);
-            $pro=ControlProceso::where('link_proceso',$d[2])->get();
-            if(count($pro)==0){
-                ControlProceso::create([
-                    'numero_proceso'=>$d[1],
-                    'link_proceso'=>$d[2],
-                    'tipo_proceso'=>$d[3],
-                    'estado_proceso'=>$d[4],
-                    'entidad'=>$d[5],
-                    'objeto'=>$d[6],
-                    'dpto_ciudad'=>$d[7],
-                    'cuantia'=>explode('$',$d[8])[1],
-                    'fecha_apertura'=>implode('-',$fecha),
-                    'id_usuario_asignado'=>$request['usuario'],
-                    'id_empresa'=>$request['empresa'],                
-                    
-                ]);
-                $i++;
-            }else{
-                $rep++;
+            $filename = $request->file('file')->move('archivos/');
+
+            $newname="/archivoexcel.".explode(".",$_FILES['file']['name'])[1];
+
+            rename($filename,realpath(dirname($filename)).$newname);
+            $datos=ControlProceso::obtener_datos_archivo($newname);
+           
+            $i=0;
+            $rep=0;
+            foreach($datos as $d ){
+                //dump($d);
+                $fecha=array_reverse(explode("-",explode("\n",$d[9])[1]));
+                
+                $fecha=ControlProceso::validar_fecha($fecha);
+                $pro=ControlProceso::where('link_proceso',$d[2])->get();
+                if(count($pro)==0){
+                    ControlProceso::create([
+                        'numero_proceso'=>$d[1],
+                        'link_proceso'=>$d[2],
+                        'tipo_proceso'=>$d[3],
+                        'estado_proceso'=>$d[4],
+                        'entidad'=>$d[5],
+                        'objeto'=>$d[6],
+                        'dpto_ciudad'=>$d[7],
+                        'cuantia'=>explode('$',$d[8])[1],
+                        'fecha_apertura'=>implode('-',$fecha),
+                        'id_usuario_asignado'=>$request['usuario'],
+                        'id_empresa'=>$request['empresa'],                
+                        
+                    ]);
+                    $i++;
+                }else{
+                    $rep++;
+                }
+                 
             }
-             
+            $msn="";
+            if($rep>0){
+                $msn=" y se identificaron ".$rep." procesos repetidos los cuales no se agregaron al sistema.";
+            }else{
+                $msn=".";
+            }
+            return  response()->json(['respuesta'=>true,'mensaje'=>'Se han agregado '.$i.' registros satisfactoriamente'.$msn]);                       
+
+        }catch(\Exception $ex){
+            return  response()->json(['respuesta'=>false,'mensaje'=>'Ha ocurrido un error ' ]);   
         }
-        $msn="";
-        if($rep>0){
-            $msn=" y se identificaron ".$rep." procesos repetidos los cuales no se agregaron al sistema.";
-        }else{
-            $msn=".";
-        }
-        return  response()->json(['respuesta'=>true,'mensaje'=>'Se han agregado '.$i.' registros satisfactoriamente'.$msn]);                       
         
        
     }

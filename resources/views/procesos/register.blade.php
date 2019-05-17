@@ -138,6 +138,7 @@
 				  .done(function(data) {
 				    $.each(data,function(key, registro) {
 				    	document.getElementById("selUsuario").innerHTML="";
+				    	$("#selUsuario").append('<option value="0">Selecciona un usuario</option>');	
 				    	registro.forEach(function(r){
 				    		console.log(r);
 				    		$("#selUsuario").append('<option value='+r.id+'>'+r.name+'</option>');	
@@ -148,6 +149,12 @@
 				  .fail(function() {
 				    
 				  });
+				  
+        	});
+
+
+        	$('#selUsuario').on("change",function(){
+        		usuario =$('#selUsuario').val();
 				  
         	});
 
@@ -178,7 +185,13 @@
 		this.on("success", function(file, xhr){ 
 
 			document.getElementById("spmsn").innerHTML=xhr.mensaje;
-			document.getElementById(el).style.display='';	 }),
+			document.getElementById("spmsn").classList.add('text-red');
+			document.getElementById(el).style.display='';
+			this.removeAllFiles(true);	 }),
+		this.on("complete", function(file, xhr){ 
+
+			 this.removeAllFiles(true);
+			 }),
 		this.on('error',function(file,error){
 			console.log(error);
 			$('.dz-error-message > span').text(error.file[0]);})
