@@ -8,6 +8,7 @@ use App\ControlProceso;
 use App\User;
 use App\Empresa;
 use App\ObservacionProceso;
+use Illuminate\Support\Facades\Log;
 
 
 
@@ -176,41 +177,66 @@ class ProcesosController extends Controller
             $rep=0;
             foreach($datos as $d ){
                 //dump($d);
-                $fecha=array_reverse(explode("-",explode("\n",$d[9])[1]));
+                //try{
+                    $fecha=array_reverse(explode("-",explode("\n",$d[9])[1]));
                 
-                $fecha=ControlProceso::validar_fecha($fecha);
-                $pro=ControlProceso::where('link_proceso',$d[2])->get();
-                if(count($pro)==0){
-                    ControlProceso::create([
-                        'numero_proceso'=>$d[1],
-                        'link_proceso'=>$d[2],
-                        'tipo_proceso'=>$d[3],
-                        'estado_proceso'=>$d[4],
-                        'entidad'=>$d[5],
-                        'objeto'=>$d[6],
-                        'dpto_ciudad'=>$d[7],
-                        'cuantia'=>explode('$',$d[8])[1],
-                        'fecha_apertura'=>implode('-',$fecha),
-                        'id_usuario_asignado'=>$request['usuario'],
-                        'id_empresa'=>$request['empresa'],                
+                    $fecha=ControlProceso::validar_fecha($fecha);
+
+                    $cuantia=explode('$',$d[8]);
+
+                    if(count($cuantia)==1){
                         
-                    ]);
-                    $i++;
-                }else{
-                    $rep++;
-                }
+                        $cc=$cuantia[0];
+                    }
+                    if(count($cuantia)>1){
+                        
+                        $cc=$cuantia[1];
+                    }
+
+
+                    $pro=ControlProceso::where('link_proceso',$d[2])->get();
+                    if(count($pro)==0){
+                        ControlProceso::create([
+                            'numero_proceso'=>$d[1],
+                            'link_proceso'=>$d[2],
+                            'tipo_proceso'=>$d[3],
+                            'estado_proceso'=>$d[4],
+                            'entidad'=>$d[5],
+                            'objeto'=>$d[6],
+                            'dpto_ciudad'=>$d[7],
+                            'cuantia'=>$cc,
+                            'fecha_apertura'=>implode('-',$fecha),
+                            'id_usuario_asignado'=>$request['usuario'],
+                            'id_empresa'=>$request['empresa'],                
+                            
+                        ]);
+                        $i++;
+                    }else{
+                        $rep++;
+                    }
+                /*}catch(Exception $e){
+                    Log::error($ex->getMessage());
+                    $err=."error con el registro # ".$d[1]."/n";
+                }*/
                  
             }
             $msn="";
             if($rep>0){
-                $msn=" y se identificaron ".$rep." procesos repetidos los cuales no se agregaron al sistema.";
+                if($rep==1){
+                    $msn=" y se identifico ".$rep." proceso repetido el cual no se agrego al sistema. "$err;
+                }else{
+                    $msn=" y se identificaron ".$rep." repetidos los cuales no se agregaron al sistema. ";
+                }
+                
             }else{
                 $msn=".";
             }
             return  response()->json(['respuesta'=>true,'mensaje'=>'Se han agregado '.$i.' registros satisfactoriamente'.$msn]);                       
 
         }catch(\Exception $ex){
-            return  response()->json(['respuesta'=>false,'mensaje'=>'Ha ocurrido un error ' ]);   
+            Log::error($ex->getMessage());
+            
+            return  response()->json(['respuesta'=>false,'mensaje'=>'Ha ocurrido un error ']);   
         }
         
        

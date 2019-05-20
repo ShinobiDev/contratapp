@@ -13,7 +13,7 @@
 			  
 			  <a href="https://www.contratos.gov.co/consultas/inicioConsulta.do" target="_blank" class="list-group-item list-group-item-info"> <span class="text-red">2-</span> Ingresa a el sitio web contratos.gov.co <small class="text-red">(Puedes acceder danco clic aquí)</small>.</a>
 
-			  <a href="#" class="list-group-item list-group-item-ligth"> <span class="text-red">3-</span> Filtra y copia en el navegador, luego de esto pega en las casillas del archivo de excel no olvides que deben tener el mismo orden y no pueden quedar filas incompletas.</a>
+			  <a href="#" class="list-group-item list-group-item-ligth"> <span class="text-red">3-</span> Filtra y copia en el navegador, luego de esto pega en las casillas del archivo de excel no olvides que deben tener el mismo orden y no pueden quedar filas incompletas.(debes usar LIBRE OFFICE y guardar este archivo como formato excel 2007-2019)</a>
 			  
 			  	
 			  	@role('Comerciante')

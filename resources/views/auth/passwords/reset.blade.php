@@ -29,7 +29,7 @@
 <body class="hold-transition login-page">
 
   <div class="login-logo">
-    <a href="{{config(app.url)}}"><b>{{config('app.name')}}</a>
+    <a href="{{config('app.url')}}"><b>{{ config('app.name')}}</a>
   </div>
   <!-- /.login-logo -->
 
