@@ -172,7 +172,7 @@
 		acceptedFiles:'application/csv,application/excel,application/vnd.ms-excel, application/vnd.msexcel,text/csv, text/anytext, text/plain, text/x-c,text/comma-separated-values,inode/x-empty,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
 		maxFilesize:5,
 		maxFiles:1,
-		dictDefaultMessage:'Arrastra o da clic aquí para subir tus archivos, recurda que deben ser archivos excel, solo se permite la carga de un (1) archivo.',
+		dictDefaultMessage:'Arrastra o da clic aquí para subir tus archivos, recuerda que deben ser archivos excel, solo se permite la carga de un (1) archivo.',
 		headers:{
 			'X-CSRF-TOKEN':'{{ csrf_token()}}'
 		},

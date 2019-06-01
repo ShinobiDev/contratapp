@@ -223,7 +223,7 @@ class ProcesosController extends Controller
             $msn="";
             if($rep>0){
                 if($rep==1){
-                    $msn=" y se identifico ".$rep." proceso repetido el cual no se agrego al sistema. "$err;
+                    $msn=" y se identifico ".$rep." proceso repetido el cual no se agrego al sistema. ".$err;
                 }else{
                     $msn=" y se identificaron ".$rep." repetidos los cuales no se agregaron al sistema. ";
                 }
