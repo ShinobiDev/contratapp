@@ -1,4 +1,4 @@
-<p align="center"><img src="https://www.contratos.gov.co/puc/comun/images/icono_secop.png"></p>
+<p align="center">secop v1.0</p>
 
 
 
@@ -31,4 +31,3 @@ Secop, es una aplicacion desarrollada con el Framework [Laravel 5.5](https://lar
 
 	php artisan migrate --seed
 
-	
